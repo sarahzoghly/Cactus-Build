@@ -1201,7 +1201,7 @@ while True:
                             dialog_box_visible = True
                     elif selected_choice == "left_choice":
                         selected_choice = "nothing"
-                        rare_event_mirage = random.randint(1, 15) 
+                        rare_event_mirage = random.randint(1, 10) 
                         if rare_event_mirage == 1:
                             current_dialog = cactus_rare_dialog
                             game_state = "dialog"
