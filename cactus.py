@@ -34,7 +34,6 @@ drink = ["warm water",
          "green juice.. you are thiristy, you can't complain"]
 
 pet = ["a cat",
-       "a parrot",
        "a rabbit",
        "a turtle",
        "a..goat?",
@@ -738,7 +737,6 @@ bg_stars = pygame.image.load("Images/bg_stars.jpg").convert_alpha()
 bg_stars_blur = pygame.image.load("Images/bg_stars_blur.jpg").convert_alpha()
 bg_village_entrance = pygame.image.load("Images/bg_village_entrance.jpg").convert_alpha()
 pet_cat = pygame.image.load("Images/pet_cat.png").convert_alpha()
-pet_parrot = pygame.image.load("Images/pet_parrot.png").convert_alpha()
 pet_rabbit = pygame.image.load("Images/pet_rabbit.png").convert_alpha()
 pet_turtle = pygame.image.load("Images/pet_turtle.png").convert_alpha()
 pet_goat = pygame.image.load("Images/pet_goat.png").convert_alpha()
@@ -2416,8 +2414,6 @@ while True:
 
     if the_pet == "a cat":
         the_pet_img = pet_cat
-    elif the_pet == "a parrot":
-        the_pet_img = pet_parrot
     elif the_pet == "a turtle":
         the_pet_img = pet_turtle
     elif the_pet == "a..goat?":
