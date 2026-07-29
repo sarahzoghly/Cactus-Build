@@ -4,6 +4,12 @@ import random
 import sys 
 import math
 
+import sys
+import os
+
+if getattr(sys, 'frozen', False):
+    os.chdir(sys._MEIPASS)
+
 pygame.init()
 
 WIDTH = 1280
