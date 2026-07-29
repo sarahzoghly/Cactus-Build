@@ -16,13 +16,14 @@ pygame.display.set_caption("Cactus")
 weather = ["hot", "unbearable", "extremly hot"]
 sound = ["a wolf", "the wind", "a strange noise", "a snake"]
 food = ["camel meat and bread",
-        "sheep meat and bread",
-        "plane bread, you are hungry you can't complain",
+        "lamb and bread",
+        "plain bread, you are hungry you can't complain",
         "fruit salad",
         "plate of rice",
         "salad",
         "chicken and bread",
-        "a strange sandwich, it smells like goat cheese, lets hope it tastes good."]
+        "a strange sandwich, it smells like goat cheese, let's hope it tastes good.",
+        "goat cheese"]
 
 drink = ["warm water",
          "water",
@@ -46,21 +47,18 @@ pet_condition =["it looks hungry",
                 "it looks like it likes you",
                 "it is trying hard to keep up with your wide footsteps",
                 "It looks lonely",
-                "It is still a baby"]
-
-pet_condition_2 = ["it looks like it loves you now",
-                   "it looks hungry",
-                   "it is hopping behind you happily",
-                    "it is tired."
-                    "it loves you."
-                    "it is happy."
-                    "It is happy to be with you.",
-                    "it is chewing on a random stick on the ground"
-                    ".. it is an ice-cream stick, yuck.",
-                    "it is just chilling",
-                    "it is eating.. your backup food,"
-                    "it is it's now."
-                   ]
+                "It is still a baby",
+                "it looks like it loves you now",
+                "it looks hungry",
+                "it is hopping behind you happily",
+                "it is tired.",
+                "it loves you.",
+                "it is happy.",
+                "It is happy to be with you.",
+                "it is chewing on a random stick on the ground"
+                ".. it is an ice-cream stick, yuck.",
+                "it is just chilling",
+                "it is eating.. your backup food"]
 
 
 trivia_questions = [
@@ -78,8 +76,6 @@ trivia_questions = [
      "answer":"saturn", "wrong":["uranus", "neptune", "pluto"]},
     {"question":"What is H2O more commonly known as?",
      "answer":"water", "wrong":["air", "oxygen", "hydrochloric acid"]},
-    {"question":"What do we call molten rock upon the surface after it erupts from a volcano?",
-     "answer":"lava", "wrong":["magma", "igneous rock", "nagma"]},
     {"question":"What part of the body pumps blood?",
      "answer":"heart", "wrong":["liver", "spleen", "red blood cells"]},
     {"question":"What tool tells you which direction is north?",
@@ -122,6 +118,22 @@ trivia_questions = [
      "answer":"lizard", "wrong":["snakes", "salamanders", "ostriches"]},
 ]
 #VARIABLES 
+cactus_intro_done = False
+endings = False
+points_poor_visible = False
+refuse_cactus_visible = False
+collapsed_sand_visible = False
+collapse_exhaustion_visible = False
+refuse_woman_visible = False
+best_pet_visible = False
+best_visible = False
+mid_pet_visible = False
+mid_visible = False
+bad_pet_visible = False
+bad_visible = False
+
+cactus_points = False
+rare_event_mirage = random.randint(1, 10)
 food_added = False
 drink_added = False
 score_minus_twenty = False
@@ -132,7 +144,9 @@ the_pet = random.choice(pet)
 the_food = random.choice(food)
 the_drink = random.choice(drink)
 pet_name_input = ""
-the_pet_condition = random.choice(pet_condition)
+pet_condition_1 = random.choice(pet_condition)
+pet_condition_2 = random.choice(pet_condition)
+pet_condition_3 = random.choice(pet_condition)
 total_score = 0
 round_score = 0
 lose_count = 0 
@@ -142,9 +156,9 @@ pet_name = ""
 naming_active = False
 pet_taken = False
 endings = []
-dialog_box_visible = False
-game_state = "dialog"
-dialog_time = pygame.time.get_ticks()
+dialogue_box_visible = False
+game_state = "dialogue"
+dialogue_time = pygame.time.get_ticks()
 desert_weather = random.choice(weather)
 intro_started = False
 right_choice = ""
@@ -156,9 +170,9 @@ choice_character_visible = False
 cactus_width = 10
 cactus_height = 17
 cactus_visible = False
-cactus_1st_dialog_started = False
+cactus_1st_dialogue_started = False
 intro_done = False
-cactus_1st_dialog_done = False
+cactus_1st_dialogue_done = False
 cactus_questions_started = False
 
 trivia_active = False
@@ -188,7 +202,7 @@ bucket_taken = False
 bucket_scene_started = False
 bucket_choice_started = False
 
-trivia_dialog = []
+trivia_dialogue = []
 
 bucket_timer = 0 
 bucket_scene_started = False
@@ -208,14 +222,14 @@ man_back_bonus = False
 post_trivia_1_done = False 
 
 strange_sound = random.choice(sound)
-player_pet_status = random.choice(pet_condition_2)
+player_pet_status = random.choice(pet_condition)
 
 coin_added = False
 
-#DIALOG
-intro = ["You find yourself in the middle of the desert.",
-        "You don’t remember how you got here. Your head is foggy,"
-        f"and the weather is {desert_weather}.",
+#DIALOGUE
+intro = ["You find yourself in the middle of the desert. (press Z)",
+        "You don’t remember how you got here. Your head is foggy, "
+        f"and the weather is {random.choice(weather)}.",
         "You’re thirsty.",
         "Hungry.",
         "Dizzy.",
@@ -223,11 +237,25 @@ intro = ["You find yourself in the middle of the desert.",
         "You hear a strange sound, you look and"
         " " "spot a grinning floating cactus.",
         "Yes, it has a face.",
-        "You don't know if it is just dehydration"
-        " " "or that you have lost your mind"]
+        "You don't know whether it is just dehydration"
+        " " "or if you have lost your mind"]
 
-cactus_1st_dialog = ["Hi there! Do you want to play"
-                      " " "a small trivia game? :D",
+cactus_intro = ["Hi there! You are new here, aren't you?",
+                "I'm The Floating Cactus! Your new best friend here!",
+                "You look confused..",
+                "Well, I will help you settle in!",
+                "First, the game is simple, just choose whatever you feel is right. but remember, your choices matter!",
+                "For the controls, just press Z to progress through the game like you have been doing,",
+                "The arrows to move around when possible,",
+                "And E to see your unlocked endings! Your progress is saved even when you close the game!",
+                "You will rarely need to use the ENTER button, other than that it is pretty simple.",
+                "If you want a bigger screen, press F11!",
+                "Also, a tip: never ignore me. We are friends and I really hate being ignored.",
+                "Now for the fun part!",
+                "nothing"]
+
+cactus_1st_dialogue = ["Do you want to play"
+                      " " "a little trivia game? :D",
                       "3 trivia questions,"
                       " " "if you get 1 right you will earn 5 points!"
                       " " "That is a great way to increase your total score!",
@@ -237,10 +265,10 @@ cactus_happy = ["You agree to the floating cactus offer"
                 " " ", it grins widely and askes:"]
 
 cactus_sad = ["You refuse as a normal sane human being.",
-              "fine! I will"
+              "Fine! I will"
               " " "be back!",
               "That was weird."]
-bucket_dialog = ["You looked around and there was an empty bucket.",
+bucket_dialogue = ["You looked around and there was an empty bucket.",
                  "You remembered something about having to fill it.", 
                  "nothing"]
 jeep_vs_pond = ["In the distance, you spot two things:",
@@ -250,32 +278,32 @@ jeep_vs_pond = ["In the distance, you spot two things:",
                 " " "and wait for the sun to finish you off.",
                 "nothing"]
 jeep_vs_pond_main = [] 
-jeep_dialog = ["You walk toward the jeep.",
-               "When you reach it, you see a man inspecting the engine.",
+jeep_dialogue = ["You walk towards the jeep.",
+               "After reaching it, you see a man inspecting the engine.",
                "It looks like the jeep is broken.",
                "nothing"]
-pond_dialog = ["You start walking toward the water pond.",
+pond_dialogue = ["You start walking towards the water pond.",
                "But with every step, the distance"
-                " " "seems to stretch farther away.",
+                " " "seems to stretch further away.",
                 "You keep walking... and walking...",
                 "nothing"]
-pond_back_dialog = ["You lost 5 points for coming herefrom the start!",
+pond_back_dialogue = ["You lost 5 points for coming here from the beginning!",
                     "You went back to where you were."] + jeep_vs_pond
-cactus_rare_dialog = ["You heard a strange sound", 
+cactus_rare_dialogue = ["You heard a strange sound", 
                       "as you looked, it turned out to be the"
                        " " "floating cactus again..",
                        "Hi there!",
                        "What are you doing here? As far"
                         " " "as I know, this place is empty.",
-                        "Do you want a drive to the jeep?"
-                        " " "there is a guy there that may help you!",
+                        "Need a lift to the jeep?"
+                        " " "there is a guy there who might help you!",
                         "nothing"]
 #EDITING
-cactus_rare_happy = ["It holds you happily,and flies away with you humming.",
+cactus_rare_happy = ["It holds you happily, and flies away with you humming.",
                      "you arrive in a couple of minutes.",
-                     "Here you go!' it said happily.",
-                     "Also, here is 20 points! They may help"
-                     " " "you :D' it said before vanishing",
+                     "Here you go!",
+                     "Also, here is 20 points! They might help"
+                     " " "you :D",
                      f"Your total score now is {total_score}.",
                      "Well, it turned out to be helpful.",
                      "nothing"]
@@ -292,7 +320,7 @@ cactus_rare_sad = ["fine! I shouldn't have offered you help from the start",
                     "Exhausted, dizzy, and drained"
                     " " "from the endless walk",
                     "You collapse in the sand."]
-mirage_dialog = ["The pond never gets any closer.",
+mirage_dialogue = ["The pond never gets any closer.",
                  "It was a mirage.",
                  "You're more lost than before,"
                  " " "the heat pressing down on you like a weight.",
@@ -300,27 +328,27 @@ mirage_dialog = ["The pond never gets any closer.",
                  " " "drained from the endless walk",
                  "You collapse in the sand."]
 
-jeep_back_dialog = []
+jeep_back_dialogue = []
 
-jeep_man_talk = ["You call for him and he walks toward you with a questioning look",
+jeep_man_talk = ["You call for him and he walks towards you with a questioning look",
                  "You explain that you're lost and don’t remember how you got here.",
                 "I was headed to a nearby village, but the jeep broke down.",
                  "The jeep needs water to start again",
-                 "There is a well nearby but I have nothing to fetch water with.",
-                 "If you help him he might help you in return.",
+                 "There is a well nearby, but I have nothing to fetch water with.",
+                 "If you help him, he might help you in return.",
                  "nothing"]
 
-bucket_given_dialog = ["You hand him the bucket",
-                       "He takes it, walks off toward the well.",
-                       "As you wait you hear a strange sound, when you looked up you spot it again.",
+bucket_given_dialogue = ["You hand him the bucket",
+                       "He takes it, walks off towards the well.",
+                       "As you wait you hear a strange sound. Looking up, you spot it again.",
                        "The Floating Cactus.",
                        "Hey there again!",
                        "Do you want to play another trivia game?",
-                       "Just like the last time you earn 5 points for each correct question and lose 5 for each wrong one!",
+                       "Just like the last time, you earn 5 points for each correct question and lose 5 for each wrong one!",
                        "Remember that can easily increase your score if you are smart enough!",
                        "nothing"]
 
-bucket_thrown_dialog= ["You threw the bucket directly at his head.",
+bucket_thrown_dialogue= ["You threw the bucket directly at his head.",
                         "OW! What is wrong with you!?",
                         "You lost the bucket.",
                         "You know what? I am taking this and leaving you.",
@@ -329,15 +357,15 @@ bucket_thrown_dialog= ["You threw the bucket directly at his head.",
                         "You offered to help him. He sighed deeply.",
                         "Fine. Come make yourself useful",
                         "You were just going after him but a strange sound stopped you.",
-                        "You looked up.",
-                        "It was The Floating Cactus.",
+                        "You look up.",
+                        "It is The Floating Cactus.",
                         "Hey there again!",
                         "Do you want to play another trivia game?",
                         "Just like the last time you earn 5 points for each correct question and lose 5 for each wrong one!",
                         "Remember that can easily increase your score if you are smart enough!",
                         "nothing"]
 
-man_back_dialog = ["The man comes back with the bucket full of water",
+man_back_dialogue = ["The man comes back with the bucket full of water",
                   "He walks to the jeep.",
                   "After pouring the water into the engine, he fiddles with it for a while"
                    " " "and the jeep starts.",
@@ -345,7 +373,7 @@ man_back_dialog = ["The man comes back with the bucket full of water",
                    f"Your total score now is {total_score} points!",
                    "Get in",
                    "You hop into the jeep",
-                   "As soon as he began driving, your eyes closed. Heavy with sleep.",
+                   "As soon as he began driving, you started feeling sleepy.",
                    "...",
                    "...",
                    "...",
@@ -353,7 +381,7 @@ man_back_dialog = ["The man comes back with the bucket full of water",
                    "Here we are",
                    "I've got some business to take care of. I have to go. See you around.",
                    "nothing"]
-stare_man_dialog = ["You stared at him.",
+stare_man_dialogue = ["You stared at him.",
                     "...",
                     "...",
                     "Stop looking at me like that",
@@ -362,7 +390,7 @@ stare_man_dialog = ["You stared at him.",
                     "Ok. Ok. Just.. come help me, let's find a way to make it work.",
                     "nothing"]
                     
-help_dialog = ["You offered to help",
+help_dialogue = ["You offered to help",
                "I told you. I need something to fetch the water with.",
                "You offered your shoe.",
                "Are you serious?",
@@ -376,8 +404,7 @@ man_die = ["You both try everything to fix" #BACK
             "The man crawls into the jeep.",
             "He looks exhausted—maybe he"
             " " "passed out, maybe worse.",
-            "You hear a strange sound in the distance"
-            " " f"—{strange_sound}, you think.",
+            "You hear a strange sound in the distance -SOUND, you think.",
             "It doesn't look safe to stay here.",
             "Night falls.",
             "You lie on the sand, eyes"
@@ -385,9 +412,9 @@ man_die = ["You both try everything to fix" #BACK
             "The stars blur.",
             "Everything fades.",
             "You don’t hear anything anymore.",
-            "You had to get the bucket."]
+            "You really should've gotten that bucket."]
 
-pet_dialog = ["You get off the jeep.",
+pet_dialogue = ["You get off the jeep.",
               "You have no idea what to do.",
               "You walk aimlessly.",
               "You don't see anyone but you can spot some houses in a distance.",
@@ -396,21 +423,21 @@ pet_dialog = ["You get off the jeep.",
               "...",
               "As you walk through the dusty streets, you hear footsteps behind you",
               "You stop.",
-              f"You turn around—it’s {the_pet}",
-              f"{the_pet_condition}.",
+              "You turn around—it’s PET",
+              "pet_condition_1.",
               "nothing"]
-pet_accepted_dialog = ["You adopted it!",
-                       "What will you name it?",
+pet_accepted_dialogue = ["You decided to adopt it!",
+                       "What are you going to name it?",
                        "nothing"]
 
-pet_rejected_dialog = ["You leave it behind.",
-                        "It looked… kind of sad.",
+pet_rejected_dialogue = ["You leave it behind.",
+                        "It looks… kind of sad.",
                         "You turn around",
                         "You can feel it watching you walk away.",
                         "nothing"]
 
 pet_name_done = [f"Your pet name is {pet_name}",
-                 f"{player_pet_status}",
+                 "PET STATUS",
                  "nothing"]
 
 village_walking = ["You walk through the village streets, stomach growling, throat dry.",
@@ -418,56 +445,56 @@ village_walking = ["You walk through the village streets, stomach growling, thro
                    "nothing"]
 
 
-shop_dialog = ["Just when you are about to drop..",
+shop_dialogue = ["Just when you are about to drop..",
                      "You spot a small shop.",
-                     "You rush toward it.",
+                     "You rush towards it.",
                      "...",
                      "...",
                      "An old woman sits behind the counter.",
                      "How can I help you?",
                      "nothing"]
 
-coin_given_dialog = ["Sorry..",
-                     "It is part of my job, I can't take you with me but..",
+coin_given_dialogue = ["Sorry..",
+                     "It is a part of my job, I can't take you with me but..",
                      "Here take that",
                      "He hands you a strange looking coin.",
-                     "That is the currency here. You look hungry, you can buy yourself something to eat.",
+                     "That is the currency here. You look hungry, buy yourself something to eat.",
                      "You pocket the coin and thank him, he nods at you.",
-                     "You go explore.",
+                     "You start exploring the village.",
                      "nothing"]
 
-thanked_dialog = ["You thank him.",
+thanked_dialogue = ["You thank him.",
                   "He nods at you.",
                   "You decide to explore the village on your own",
                   "nothing"]
 
-no_coin_dialog = ["You remember that you don't have any money.",
+no_coin_dialogue = ["You remember that you don't have any money.",
                   "Too weak to care anymore, you ask the woman for help anyway.",
                   "I think I can help you",
                   "But..",
-                  "I will take 20 points from your score instead of money.",
-                  "In exchange, I will give you some food and a drink",
+                  "I will have to take 20 points from your score instead of money.",
+                  "In exchange, I will give you some food and something to drink",
                   "nothing"]
 
 no_money_shop = ["...",
                  "It seems like you don’t have enough points.",
-                 "You look at her hoping that she helps you.",
-                 "Fine, I will help you. Just because you really need it",
-                 f"She hands you {the_food} and {the_drink}",
+                 "You look at her hoping that she helps you anyway.",
+                 "Fine, I will help you. Just because you look like you really need it",
+                 "She hands you FOOD and DRINK",
                  "Here you go.",
-                 "You thank her and say that you will pay here later when you can.",
-                 "Don't worry about it, son. It is on me.",
-                 "You thank her and walk away, searching for a shadowed place to rest.",
+                 "You thank her and say that you will pay her later when you can.",
+                 "Don't worry about it, son. It is on the house.",
+                 "You thank her again and walk away, searching for a shadowed place to rest.",
                  "nothing"]
 
 score_food = ["You agreed.",
               "Here you go..",
-              f"she hands you {the_food} and {the_drink}",
+              "she hands you smth",
               "That was a good deal.",
               "You thank her and walk away, searching for a shadowed place to rest.",
               "nothing"]
 
-refuse_food = ["As you like then. Take care.",
+refuse_food = ["As you like, then. Take care.",
                "You leave the shop empty-handed..",
                "You’re too weak to go on.",
                "The village blurs around you.",
@@ -475,42 +502,42 @@ refuse_food = ["As you like then. Take care.",
                "Everything fades..",
                "You collapse."]
 
-eating_dialog = ["The sun begins to sit..",
+eating_dialogue = ["The sun begins to sit..",
                  "You set down under a palm tree to eat and drink in peace.",
                  "You eat and drink.",
                  "nothing"]
-eating_pet_dialog = ["Your pet sneaks a few crumbs too, of course.",
-                     f"You look at it, {random.choice(pet_condition_2)}",
+eating_pet_dialogue = ["Your pet sneaks a few crumbs too, of course.",
+                     "You look at it, PET_CONDITION",
                      "You pat it's head and look back at the sunset",
                      "The sky looks beautiful..",
                      "The weather is cooler..",
                      f"{pet_name} is sleeping on your lap..",
                      "It is almost.. peaceful.",
                      "nothing"]
-cactus_eating_dialog = ["Hiiii again!~",
-                        "You look around for something to throw at it, it only grins wider",
+cactus_eating_dialogue = ["Hiiii again~~!",
+                        "You look around searching for something to throw at it, it only grins wider",
                         "Wanna play a trivia game?",
                         "nothing"]
 
 
 
-only_one = ["You asked for a drink only because you was too thiristy",
-            "Here, son",
-            f"She hands you {the_drink} and gives you some change.",
-            f"You use the change to buy yourself something to eat, she hands you {the_food}",
+only_one = ["You asked for a drink only because you were too thiristy",
+            "Here you go, son",
+            "She hands you DRINK and gives you some change.",
+            "You use the change to buy yourself something to eat, she hands you FOOD",
             "You thank her and walk away, searching for a shadowed place to rest.",
             "nothing"]
 
-both_dialog = ["You ask for both food and a drink not knowing if the coin can cover both.",
-               f"The woman surprisingly hands you {the_food} and {the_drink}",
-               "Here, son. Take care.",
+both_dialogue = ["You ask for both food and a drink, not knowing whether the coin can cover both.",
+               "The woman surprisingly hands you STUFF",
+               "Here you go, son. Take care.",
                "You thank her and walk away, searching for a shadowed place to rest.",
                "nothing"]
 
 best_ending = ["After finishing your meal, you thank God for surviving this and stand up, heading for whatever comes next",
                 "You walk back through the village streets.",
                 "You are still exhausted, your steps feel heavy.",
-                "You stop as you hear someone call your name..",
+                "You stop as you hear someone calling your name..",
                 "You turned around reaching for a rock half-expecting that weird floating cactus again",
                 "..who is that?",
                 "Thank God! Finally, you are alive!",
@@ -521,32 +548,33 @@ best_ending = ["After finishing your meal, you thank God for surviving this and 
                 "Are you hurt? We should go, I have the car with me. We should-",
                 "You flinch away when he reachs for your shoulder, he pulls away.",
                 "What is wrong? Why are you acting weird?",
-                "You ask who is he and how he knows you.",#14
+                "You ask him who he is and how he knows you.",#14
                 "I am Adam, your brother. Don't you remember me?",
-                "I was searching for you with Dad and saw a guy in a Jeep. I asked if he had seen someone lost. He said he had met a lost traveller, and I knew it had to be you. I asked him and got directions to this village.",
+                "I was searching for you with Dad and saw a guy in a Jeep. I asked if he had seen someone lost. He said he had met a lost traveller, and I knew it had to be you.",
+                "I asked him and got directions to this village.",
                 "You stare at him.",
-                "You don't know if you should trust him but.. there is something familiar about his face.",
+                "You're not sure if you should trust him, but.. there is something familiar about his face.",
                 "He looks concerned..",
                 "You look exhausted.. Mom and Dad are worried sick. Let's just get you home.", #20
-                "He holds out his hand, you hesitate. He notices. He sighs and tries again his voice gentle:",
+                "He holds out his hand, you hesitate. He notices. He sighs and tries again, his tone becomes gentle:",
                 "Do you remember the bucket?",
                 "Dad told you to fill it and you never came back. We were camping in the desert-me, you, Mom, Dad, and Lily, our little sister?",
-                "That hits something", #24
-                "Memories rush back, hazy at first… then clearer.",
+                "That rings a bell", #24
+                "Memories flood back, hazy at first… then clearer.",
                 "You remember.",
                 "You remember everything.",
                 "nothing"]
 
 best_ending_pet = [f"You glance down at your side, you see {pet_name}.", 
-                    f"{random.choice(pet_condition_2)}.",
-                    "No way you are leaving without it, so you take it with you",
-                    "You, hop into your brother’s car, taking your pet in your lap.",
-                    "He doesn't complain, he gets in the driver seat and tells you to rest till you reach home",
+                    "pet_condition_3.",
+                    "There's no way you are leaving without it, so you take it with you",
+                    "You hop into your brother’s car, then your pet hops into your lap.",
+                    "He doesn't seem to be complaining, he gets in the driver seat and asks you to rest till you reach home",
                     "You close your eyes..",
                     "You feel safe..",
                     "You feel at home."]
 
-best_ending_no_pet = ["You, hop into your brother’s car",
+best_ending_no_pet = ["You hop into your brother’s car",
                       "He gets in the driver seat and tells you to rest till you reach home",
                       "You close your eyes..",
                       "You feel safe..",
@@ -560,9 +588,9 @@ mid_ending = ["After finishing, you stand up.",
               "First person I thought of was you. You in?",
               "...",
               "You think about it.",
-              "You still don't know you were in the desert.",
-              "But.."
-              "You have nothing to lose.. right?",
+              "You still don't know you why were in the desert.",
+              "Also.."
+              "You don't have anything better to do, do you?",
               "You accept the offer",
               "nothing"]
 
@@ -570,99 +598,99 @@ transition = ["A week passes..",
               "still nothing"]
 
 mid_ending_pet = [f"You and {pet_name} now work in the cozy little shop.",
-                  f"{random.choice(pet_condition_2)}.",
+                  "pet_condition_3.",
                   "You’ve built a new rhythm, a quiet joy.",
-                  "The past is still foggy, but atleast have got some peace",
+                  "The past is still foggy, but at least you've finally gotten some peace",
                   "You are happy."]
 
 mid_ending_no_pet = ["You spend your day working in the shop.",
-                     "You have a place to go to at night."
+                     "You have a place to go to at night.",
                      "You are alone but.. you’ve built a new rhythm, a quiet joy.",
-                     "The past is still foggy, but atleast have got some peace",
+                     "The past is still foggy, but at least you've finally gotten some peace",
                      "You are happy."]
 
 bad_ending = ["A little more energy returns to you after eating.",
-              'You stand up.',
+              "You stand up.",
               "Just as you're about to decide where to go next…",
-              "Hey there! Still lost? :D",
+              "Hey there~! Still lost? :D",
               "You look up.",
               "It is there again.",
               "You walk away..",
               "You walk away.",
               "You-",
-              "I am not done talking yet. That is rude.",
+              "I am not done talking yet, idiot. That is very rude.",
               "You listen to the floating cactus.",
               "nothing"]
 
 bad_ending_pet = ["Soooo here’s the thing—you’ve got, like, no money, no family around, no idea where you are…",
                   "OH!",
-                  f"But you do have {pet_name}! Cute little thing!",
+                  f"But you at least do have {pet_name}! Cute little thing!",
                   "You tense up.",
                   "You try to walk away but your feet are rooted to the ground.",
-                  "You listen to the catus.",
+                  "You listen to the cactus.",
                   "Here’s the deal, I know a nearby shop that needs a worker.",
                   "You get a room and one meal a day!",
-                  "Pretty sweet, right?",
+                  "Pretty sweet, huh?",
                   "Buuuuuut—",
                   "(Dramatic pause)",
                   f"—I get to keep {pet_name}.",
-                  "I’m already attached. You understand.",
+                  "I’m already attached. Cactus stuff. You understand.",
                   "nothing"]
 
-bad_ending_pet_no = ["Oh, never mind! You don’t get to choose this time. It is my turn now",
+bad_ending_pet_no = ["Oh, never mind! You don’t get to choose this time. It is my turn now!",
                      "...",
                      "...",
                      "You are inside a small shop.",
                      f"Alone. No {pet_name} in sight.",
-                     "After a week..",
+                     "A week passes..",
                      "You work every day.",
                      "You eat.",
                      "You are alive."]
 
-bad_ending_pet_yes = ["You don't get to choose this time anyway but thanks for the effort.",
+bad_ending_pet_yes = ["I was going to take it either way, but thanks for the effort!",
                      "...",
                      "...",
                      "You are inside a small shop.",
                      f"Alone. No {pet_name} in sight.",
-                     "After a week..",
+                     "A week passes..",
                      "You work every day.",
                      "You eat.",
                      "You are alive."]
 
 bad_ending_no_pet = ["Soooo here’s the thing—you’ve got, like, no money, no family around, no idea where you are… OH!",
                      "It sighs dramatically",
-                     "You really don't have anything worth taking, but I can think of a deal..."
-                     "You tense up.",
+                     "You really don't have anything worth taking, but I can still think of a deal...",
+                     "You tense up",
                      "You try to walk away but your feet are rooted to the ground.",
                      "You listen to the catus.",
                      "Here’s the deal, I know a nearby shop that needs a worker.",
                      "You get a room and one meal a day!",
-                     "Pretty sweet, right?",
+                     "Pretty sweet, huh?",
                      "Buuuuuut—",
                      "(Dramatic pause)",
-                     "—I get to keep all your points",
+                     "—I get to keep all your points! I can buy that cool cap I've always wanted now!",
                      f"{total_score} points, right?",
-                     "That is a decent amount. Not bad. Not good either but better than nothing.",
+                     "That is a decent amount. Not bad. Not good either but I think this will buy me the cap",
                      "nothing"]
 
-bad_ending_no_pet_no = ["Oh, never mind! You don’t get to choose this time. It is my turn now",
+bad_ending_no_pet_no = ["Oh, never mind! You don’t get to choose this time. It is my turn now!",
                         "...",
                         "...",
                         "You are inside a small shop.",
                         "Alone.",
                         "You have no points.",
-                        "After a week..",
+                        "A week passes..",
                         "You work every day.",
                         "You eat.",
                         "You are alive."]
 
-bad_ending_no_pet_yes = ["You don't get to choose this time anyway but thanks for the effort.",
+bad_ending_no_pet_yes = ["I was going to take them either way, but thanks for the effort!",
                          "...",
                          "...",
                          "You are inside a small shop.",
                          "Alone.",
                          "You have no points.",
-                         "After a week..",
+                         "A week passes..",
                          "You work every day.",
                          "You eat.",
                          "You are alive."]
@@ -670,38 +698,38 @@ bad_ending_no_pet_yes = ["You don't get to choose this time anyway but thanks fo
 
 
 
-current_dialog = intro
+current_dialogue = intro
 current_index = 0
-#ENDINGS
-collapse = False
-points_poor = False
 
 #IMAGES
+endings_screen = pygame.image.load("Images/endings_bg.jpg").convert_alpha()
+
 inventory_bg = pygame.image.load("Images/inventory.png").convert_alpha()
 
 bg1 = pygame.image.load("Images/bg1.jpg").convert_alpha()
-dialog_box_visible = pygame.image.load("Images/dialog_box.png").convert_alpha()
-dialog_box_invisible = pygame.image.load("Images/dialog_box_invisible.png").convert_alpha()
-dialog_box = dialog_box_visible
-dialog_ch = pygame.image.load("Images/dialog_ch_symbol.png").convert_alpha()
+dialogue_box_visible = pygame.image.load("Images/dialogue_box.png").convert_alpha()
+dialogue_box_invisible = pygame.image.load("Images/dialogue_box_invisible.png").convert_alpha()
+dialogue_box = dialogue_box_visible
+dialogue_ch = pygame.image.load("Images/dialogue_ch_symbol.png").convert_alpha()
 choice_character = pygame.image.load("Images/choice_character.png").convert_alpha()
-dialog_cactus = pygame.image.load("Images/dialog_cactus_symbol.png").convert_alpha()
-dialog_man = pygame.image.load("Images/dialog_man_symbol.png").convert_alpha()
-dialog_bro = pygame.image.load("Images/dialog_bro.png").convert_alpha()
-dialog_woman = pygame.image.load("Images/dialog_woman_symbol.png").convert_alpha()
+dialogue_cactus = pygame.image.load("Images/dialogue_cactus_symbol.png").convert_alpha()
+dialogue_man = pygame.image.load("Images/dialogue_man_symbol.png").convert_alpha()
+dialogue_bro = pygame.image.load("Images/dialogue_bro.png").convert_alpha()
+dialogue_woman = pygame.image.load("Images/dialogue_woman_symbol.png").convert_alpha()
 cactus_normal = pygame.image.load("Images/cactus_character.png").convert_alpha()
 cactus_shocked = pygame.image.load("Images/cactus_shocked.png").convert_alpha()
 cactus_evil = pygame.image.load("Images/cactus_evil.png").convert_alpha()
 cactus_dissappointed = pygame.image.load("Images/cactus_dissappointed.png").convert_alpha()
 cactus_points_won = pygame.image.load("Images/cactus_points_won.png").convert_alpha()
 cactus_points_loss = pygame.image.load("Images/cactus_points_loss.png").convert_alpha()
+cactus_happy = pygame.image.load("Images/cactus_happy.png").convert_alpha()
 cactus_angry = pygame.image.load("Images/cactus_angry.png").convert_alpha()
 cactus = cactus_normal
-dialog_character = dialog_ch
+dialogue_character = dialogue_ch
 bg2 = pygame.image.load("Images/bg2.jpg").convert_alpha()
 bg_pond = pygame.image.load("Images/bg_pond.jpg").convert_alpha()
 bg_jeep = pygame.image.load("Images/bg_jeep.jpg").convert_alpha()
-bucket_img = pygame.image.load("Images/bucket.png").convert_alpha()
+bucket_img = pygame.image.load("Images/bucket_empty.png").convert_alpha()
 bucket_icon = pygame.transform.scale(bucket_img, (60, 60))
 bg_flying = pygame.image.load("Images/bg_flying.jpg").convert_alpha()
 bg_walking_1 = pygame.image.load("Images/bg_walking_1.jpg").convert_alpha()
@@ -755,6 +783,7 @@ salad = pygame.image.load("Images/salad.png").convert_alpha()
 rice = pygame.image.load("Images/rice.png").convert_alpha()
 chicken_and_bread = pygame.image.load("Images/chicken_and_bread.png").convert_alpha()
 sandwich = pygame.image.load("Images/sandwich.png").convert_alpha()
+goat_cheese = pygame.image.load("Images/goat_cheese.png").convert_alpha()
 
 c_m_b_icon = pygame.transform.scale(c_m_b, (60, 60))
 s_m_b_icon = pygame.transform.scale(s_m_b, (60, 60))
@@ -764,6 +793,7 @@ salad_icon = pygame.transform.scale(salad, (60, 60))
 rice_icon = pygame.transform.scale(rice, (60, 60))
 chicken_and_bread_icon = pygame.transform.scale(chicken_and_bread, (60, 60))
 sandwich_icon = pygame.transform.scale(sandwich, (60, 60))
+goat_cheese_icon = pygame.transform.scale(goat_cheese, (60, 60))
 
 #DRINK
 warm_water = pygame.image.load("Images/warm_water.png").convert_alpha()
@@ -791,16 +821,29 @@ slot3 = pygame.image.load("Images/slot3.png").convert_alpha()
 slot4 = pygame.image.load("Images/slot4.png").convert_alpha()
 slot5 = pygame.image.load("Images/slot5.png").convert_alpha()
 #RECTS
-slot1_rect = slot1.get_rect(topleft=(420, 10))
-slot2_rect = slot2.get_rect(topleft=(510, 10))
-slot3_rect = slot3.get_rect(topleft=(600, 10))
-slot4_rect = slot4.get_rect(topleft=(690, 10))
-slot5_rect = slot5.get_rect(topleft=(780, 10))
+slot1_rect = slot1.get_rect(topleft=(420, 610))
+slot2_rect = slot2.get_rect(topleft=(510, 610))
+slot3_rect = slot3.get_rect(topleft=(600, 610))
+slot4_rect = slot4.get_rect(topleft=(690, 610))
+slot5_rect = slot5.get_rect(topleft=(780, 610))
+
+#ENDINGS IMAGES
+points_poor_text =  pygame.image.load("Images/points_poor.png").convert_alpha()
+refuse_cactus =  pygame.image.load("Images/refuse_cactus.png").convert_alpha()
+collapsed_sand =  pygame.image.load("Images/collapse_on_sand.png").convert_alpha()
+collapse_exhaustion =  pygame.image.load("Images/collapse_exhaustion.png").convert_alpha()
+refuse_woman =  pygame.image.load("Images/refuse_woman.png").convert_alpha()
+best_pet =  pygame.image.load("Images/best_ending_pet.png").convert_alpha()
+best =  pygame.image.load("Images/best_ending.png").convert_alpha()
+mid_pet =  pygame.image.load("Images/mid_ending_pet.png").convert_alpha()
+mid =  pygame.image.load("Images/mid_ending.png").convert_alpha()
+bad_pet =  pygame.image.load("Images/bad_ending_pet.png").convert_alpha()
+bad =  pygame.image.load("Images/bad_ending.png").convert_alpha()
+
 
 current_bg = bg1
 jeep_man = jeep_man_normal
 bro = bro_normal
-
 
 
 the_pet_img = pet_cat
@@ -812,18 +855,17 @@ font = pygame.font.Font("fonts/messages.ttf", 30)
 
 #FUNCTIONS
 def check_score():
-    global game_state, dialog_box_visible, current_dialog, current_index, points_poor, trivia_active
+    global game_state, dialogue_box_visible, current_dialogue, current_index, trivia_active, points_poor_visible
     if total_score < 0:
-        current_dialog = ["You have less than 0 points! Sorry, that means game over for you!"]
-        dialog_box_visible = True
+        current_dialogue = ["You have less than 0 points! Sorry, that means game over for you!"]
+        dialogue_box_visible = True
         current_index = 0
         trivia_active = False
-        if not points_poor:
-            points_poor = True
         game_state = "game_over"
+        points_poor_visible = True
 
 def draw_inventory():
-    screen.blit(inventory_bg, (0, 0))
+    screen.blit(inventory_bg, (0, 600))
     
     screen.blit(slot1, slot1_rect.topleft)
     screen.blit(slot2, slot2_rect.topleft)
@@ -860,50 +902,106 @@ def draw_inventory_items():
 
 def restart():
     global total_score, round_score, lose_count, inventory_items, pet_name
-    global dialog_box_visible, game_state, dialog_time, intro_started
+    global dialogue_box_visible, game_state, dialogue_time, intro_started
     global selected_choice, choice_character_visible
     global cactus_width, cactus_height, cactus_visible
-    global cactus_1st_dialog_started, intro_done, cactus_1st_dialog_done, cactus_questions_started
+    global cactus_1st_dialogue_started, intro_done, cactus_1st_dialogue_done, cactus_questions_started
     global trivia_active, trivia_question_num, current_question, option_positions
     global correct_position, trivia_done, trivia_selected, result_timer, showing_trivia_result
     global cactus_last_line, narrator_last_line, cactus_line_done, narrator_line_done, score_line_done
-    global current_dialog, current_index, cactus, dialog_character
+    global current_dialogue, current_index, cactus, dialogue_character
     global bucket_taken, bucket_scene_started, bucket_choice_started, bucket_timer
-    global current_bg
-    global collapse, points_poor, cactus_points, jeep_man_visible
-    global jeep_vs_pond_main, jeep_man
+    global current_bg, collapse, points_poor, cactus_points, jeep_man_visible
+    global jeep_vs_pond_main, jeep_man, jeep_back_dialogue
     global trivia_round, man_back, man_back_timer, man_back_bonus
     global cactus_bonus, trivia_showing_result, post_trivia_1_done
     global trivia_2_started, trivia_3_started, trivia_3_done, trivia_3_timer
     global food_added, drink_added, score_minus_twenty, pet_taken, naming_active
-    global pet_name_input, pet_visible, coin_added, man_back_bonus
-    global bro_visible, trivia_round, bro
+    global pet_name_input, pet_visible, coin_added
+    global bro_visible, bro, inventory_visible
+    global desert_weather, strange_sound, the_food, the_drink, the_pet
+    global pet_condition_1, pet_condition_2, pet_condition_3, the_food_img, the_drink_img, the_pet_img
+    global player_pet_status, endings, left_choice, right_choice
+    global lines, narrator_lines, score_line, trivia_dialogue, rare_event_mirage
 
+    pet_condition_1 = random.choice(pet_condition)
+    pet_condition_2 = random.choice(pet_condition)
+    pet_condition_3 = random.choice(pet_condition)
 
-    bro_visible = False
-    trivia_round = 1
-    bro = bro_normal
-    post_trivia_1_done = False 
+    # scores and counts
     total_score = 0
     round_score = 0
     lose_count = 0
+    score_line = ""
+    endings = []
+    rare_event_mirage = random.randint(1, 10)
+
+    # inventory
     inventory_items = []
+    inventory_visible = True
+
+    # pet
     pet_name = ""
-    dialog_box_visible = False
-    game_state = "dialog"
-    dialog_time = pygame.time.get_ticks()
-    intro_started = False
+    pet_name_input = ""
+    pet_taken = False
+    pet_visible = False
+    naming_active = False
+    the_pet = random.choice(pet)
+    the_pet_img = pet_cat
+    player_pet_status = random.choice(pet_condition)
+
+    # food and drink
+    food_added = False
+    drink_added = False
+    score_minus_twenty = False
+    the_food = random.choice(food)
+    the_drink = random.choice(drink)
+    the_food_img = c_m_b_icon
+    the_drink_img = water_icon
+    coin_added = False
+
+    # random world elements
+    desert_weather = random.choice(weather)
+    strange_sound = random.choice(sound)
+
+    # dialogue state
+    dialogue_box_visible = False
+    game_state = "dialogue"
+    dialogue_time = pygame.time.get_ticks()
+    current_dialogue = intro
+    current_index = 0
+    dialogue_character = dialogue_ch
+    left_choice = ""
+    right_choice = ""
     selected_choice = ""
     choice_character_visible = False
+
+    # intro flags
+    intro_started = False
+    intro_done = False
+    cactus_1st_dialogue_started = False
+    cactus_1st_dialogue_done = False
+    cactus_questions_started = False
+
+    # cactus
+    cactus = cactus_normal
     cactus_width = 10
     cactus_height = 17
     cactus_visible = False
-    cactus_1st_dialog_started = False
-    intro_done = False
-    cactus_1st_dialog_done = False
-    cactus_questions_started = False
+    cactus_points = False
+    cactus_bonus = False
+    cactus_last_line = ""
+    narrator_last_line = ""
+    cactus_line_done = False
+    narrator_line_done = False
+    score_line_done = False
+    lines = ["That was soooo much fun!", "Till next time!", "Fun, right?", "Bye!"]
+    narrator_lines = ["That was weird.", "You are planning to play again next time, aren't you?", "Well, that is your life now."]
+
+    # trivia
     trivia_active = False
     trivia_question_num = 0
+    trivia_round = 1
     current_question = None
     option_positions = {}
     correct_position = ""
@@ -911,48 +1009,36 @@ def restart():
     trivia_selected = "A"
     result_timer = 0
     showing_trivia_result = False
-    cactus_last_line = ""
-    narrator_last_line = ""
-    cactus_line_done = False
-    narrator_line_done = False
-    score_line_done = False
-    current_dialog = intro
-    current_index = 0
-    current_bg = bg1
-    cactus = cactus_normal
-    dialog_character = dialog_ch
+    trivia_showing_result = False
+    trivia_dialogue = []
+    post_trivia_1_done = False
+    trivia_2_started = False
+    trivia_3_started = False
+    trivia_3_done = False
+    trivia_3_timer = 0
+
+    # bucket
     bucket_taken = False
     bucket_scene_started = False
     bucket_choice_started = False
     bucket_timer = 0
-    bucket_scene_started = False
-    man_back_bonus = False
-    collapse = False
-    points_poor = False
-    cactus_points = False
+    jeep_vs_pond_main = []
+    jeep_back_dialogue = []
+
+    # jeep man
+    jeep_man = jeep_man_normal
     jeep_man_visible = False
-    trivia_round = 1
     man_back = False
     man_back_timer = 0
-    man_back_bonus = False  
-    cactus_bonus = False    
-    trivia_showing_result = False
-    trivia_dialog = []
-    jeep_man = jeep_man_normal
-    jeep_vs_pond_main = [] 
+    man_back_bonus = False
 
-    trivia_2_started = False
-    trivia_3_started = False
-    trivia_3_done = False   
-    trivia_3_timer = 0
-    food_added = False
-    drink_added = False
-    score_minus_twenty = False
-    pet_taken = False
-    naming_active = False
-    pet_name_input = ""
-    pet_visible = False
-    coin_added = False
+
+    # brother
+    bro = bro_normal
+    bro_visible = False
+
+    # background
+    current_bg = bg1
     
 
 def draw_message(message, x, y):
@@ -960,8 +1046,8 @@ def draw_message(message, x, y):
     screen.blit(text_surface, (x, y))
 
 def timer_reset():
-    global dialog_time
-    dialog_time = pygame.time.get_ticks()
+    global dialogue_time
+    dialogue_time = pygame.time.get_ticks()
 
 def text(message, width, x, y):
     current_line = ""
@@ -980,37 +1066,37 @@ def text(message, width, x, y):
         draw_message(line, x, y)
         y = y + 5 + font.size("a")[1]
 
-def dialog_check():
-    if dialog_box_visible:
+def dialogue_check():
+    if dialogue_box_visible:
         if jeep_man_visible: #EDIT
             screen.blit(jeep_man, (480, 280))
-            screen.blit(dialog_box, (51, 487))
-            screen.blit(dialog_character,(103, 514))
-            text(current_dialog[current_index], 1040, 185, 514)
+            screen.blit(dialogue_box, (50, 20))
+            screen.blit(dialogue_character,(103, 47))
+            text(current_dialogue[current_index], 1000, 185, 47)
 
         elif bro_visible: 
             screen.blit(bro, (480, 280))
-            screen.blit(dialog_box, (51, 487))
-            screen.blit(dialog_character,(103, 514))
-            text(current_dialog[current_index], 1040, 185, 514)
+            screen.blit(dialogue_box, (50, 20))
+            screen.blit(dialogue_character,(103, 47))
+            text(current_dialogue[current_index], 1000, 185, 47)
         else:
-            screen.blit(dialog_box, (51, 487))
-            screen.blit(dialog_character,(103, 514))
-            text(current_dialog[current_index], 1040, 185, 514)
+            screen.blit(dialogue_box, (50, 20))
+            screen.blit(dialogue_character,(103, 47))
+            text(current_dialogue[current_index], 1000, 185, 47)
 
 def choices(left_choice, right_choice):
     global choice_character_visible
-    if dialog_box_visible:
-        screen.blit(dialog_box, (51, 487))
+    if dialogue_box_visible:
+        screen.blit(dialogue_box, (50, 20))
         if selected_choice == "left_choice":
-            screen.blit(choice_character, (200, 560))
+            screen.blit(choice_character, (200, 95))
         elif selected_choice == "right_choice":
-            screen.blit(choice_character, (970, 560))
+            screen.blit(choice_character, (970, 95))
         else:
-            screen.blit(choice_character, (590, 560))
+            screen.blit(choice_character, (590, 95))
         choice_character_visible = True
-        text(left_choice, 550, 100, 560)
-        text(right_choice, 480, 750, 560)
+        text(left_choice, 550, 100, 95)
+        text(right_choice, 480, 750, 95)
         
 
 
@@ -1041,21 +1127,21 @@ def trivia_question_setup():
 
 def draw_trivia():
     if trivia_active:
-        screen.blit(dialog_box, (51, 487))
-        text(current_question["question"], 1090, 80, 500)
-        text(option_positions["A"], 500, 90, 565)
-        text(option_positions["B"], 500, 925, 565)
-        text(option_positions["C"], 500, 90, 620)
-        text(option_positions["D"], 500, 925, 620)
+        screen.blit(dialogue_box, (50, 20))
+        text(current_question["question"], 1050, 80, 45)
+        text(option_positions["A"], 500, 70, 100)
+        text(option_positions["B"], 500, 935, 100)
+        text(option_positions["C"], 500, 70, 155)
+        text(option_positions["D"], 500, 935, 155)
 
         if trivia_selected == "B":
-            screen.blit(choice_character, (880, 565))
+            screen.blit(choice_character, (880, 100))
         elif trivia_selected == "C":
-            screen.blit(choice_character, (60, 620))   
+            screen.blit(choice_character, (60, 155))
         elif trivia_selected == "D":
-            screen.blit(choice_character, (880, 620))
+            screen.blit(choice_character, (880, 155))
         else:
-            screen.blit(choice_character, (60, 565))
+            screen.blit(choice_character, (60, 100))
 
 def draw_naming():
     global pet_name_input
@@ -1077,37 +1163,42 @@ while True:
                 pygame.display.toggle_fullscreen()
 
         
+            if event.key == pygame.K_e:
+                if not endings:
+                    endings = True
+                else:
+                    endings = False
 
             if event.key == pygame.K_z: 
-                if dialog_box_visible and game_state == "dialog":
-                    if current_index < len(current_dialog) - 1:
+                if dialogue_box_visible and game_state == "dialogue":
+                    if current_index < len(current_dialogue) - 1:
                         current_index += 1
                     else:
-                        dialog_box_visible = False
+                        dialogue_box_visible = False
 
                 if game_state == "game_over":
-                    if current_index < len(current_dialog) - 1:
+                    if current_index < len(current_dialogue) - 1:
                         current_index += 1
                     else:
                         restart()        
 
-                elif dialog_box_visible and game_state == "choice_cactus_1":
+                elif dialogue_box_visible and game_state == "choice_cactus_1":
                     if selected_choice == "right_choice":
                         selected_choice = "nothing"
-                        game_state = "dialog"
-                        current_dialog = cactus_sad
+                        game_state = "dialogue"
+                        current_dialogue = cactus_sad
                         cactus = cactus_angry
                         current_index = 0
-                        dialog_box_visible = True
+                        dialogue_box_visible = True
                     elif selected_choice == "left_choice":
                         selected_choice = "nothing"
-                        game_state = "dialog"
+                        game_state = "dialogue"
                         trivia_active = True
                         trivia_question_num = 0
                         round_score = 0
                         trivia_question_setup()
                         current_index = 0
-                        dialog_box_visible = False
+                        dialogue_box_visible = False
 
                 
                 
@@ -1126,7 +1217,7 @@ while True:
                             narrator_last_line = random.choice(narrator_lines)
                             score_line = f"You got {round_score} points. Your total score is {total_score}!"
                             showing_trivia_result = True
-                            dialog_box_visible = False
+                            dialogue_box_visible = False
                             result_timer = pygame.time.get_ticks()
                             
                         else:
@@ -1147,7 +1238,7 @@ while True:
                                 narrator_last_line = random.choice(narrator_lines)
                                 score_line = f"You got {round_score} points. Your total score is {total_score}!"
                                 showing_trivia_result = True
-                                dialog_box_visible = False
+                                dialogue_box_visible = False
                                 result_timer = pygame.time.get_ticks()
                             else:
                                 trivia_question_setup()     
@@ -1155,37 +1246,37 @@ while True:
                 elif game_state == "bucket_choice" and not bucket_taken:
                     if selected_choice == "right_choice":
                         selected_choice = "nothing"
-                        game_state = "dialog"
+                        game_state = "dialogue"
                         jeep_vs_pond_main = ["You left the bucket"] + jeep_vs_pond
-                        current_dialog = jeep_vs_pond_main
+                        current_dialogue = jeep_vs_pond_main
                         current_index = 0
-                        dialog_box_visible = True
+                        dialogue_box_visible = True
                     elif selected_choice == "left_choice":
                         selected_choice = "nothing"
-                        game_state = "dialog"
+                        game_state = "dialogue"
                         inventory_add(bucket_icon)
                         bucket_taken = True
                         
                         jeep_vs_pond_main = ["You took the bucket"] + jeep_vs_pond
-                        current_dialog = jeep_vs_pond_main
+                        current_dialogue = jeep_vs_pond_main
                         current_index = 0
-                        dialog_box_visible = True
+                        dialogue_box_visible = True
 
                 elif game_state == "jeep_vs_pond_choice":
                     if selected_choice == "right_choice":
                         selected_choice = "nothing"
-                        game_state = "dialog"
-                        current_dialog = jeep_dialog
+                        game_state = "dialogue"
+                        current_dialogue = jeep_dialogue
                         current_bg = bg_jeep
                         current_index = 0
-                        dialog_box_visible = True
+                        dialogue_box_visible = True
                     elif selected_choice == "left_choice":
                         selected_choice = "nothing"
-                        game_state = "dialog"
-                        current_dialog = pond_dialog
+                        game_state = "dialogue"
+                        current_dialogue = pond_dialogue
                         current_bg = bg_pond
                         current_index = 0
-                        dialog_box_visible = True
+                        dialogue_box_visible = True
   
                 elif game_state == "pond_choices":
                     if selected_choice == "right_choice":
@@ -1193,23 +1284,22 @@ while True:
                         total_score -= 5
                         check_score()
                         if total_score >= 0:
-                            current_dialog = pond_back_dialog
-                            game_state = "dialog"
+                            current_dialogue = pond_back_dialogue
+                            game_state = "dialogue"
                             current_index = 0
-                            dialog_box_visible = True
+                            dialogue_box_visible = True
                     elif selected_choice == "left_choice":
-                        selected_choice = "nothing"
-                        rare_event_mirage = random.randint(1, 10) 
+                        selected_choice = "nothing" 
                         if rare_event_mirage == 1:
-                            current_dialog = cactus_rare_dialog
-                            game_state = "dialog"
+                            current_dialogue = cactus_rare_dialogue
+                            game_state = "dialogue"
                             current_index = 0
-                            dialog_box_visible = True
+                            dialogue_box_visible = True
                         else:
-                            current_dialog = mirage_dialog
-                            game_state = "dialog"
+                            current_dialogue = mirage_dialogue
+                            game_state = "dialogue"
                             current_index = 0
-                            dialog_box_visible = True
+                            dialogue_box_visible = True
 
                     
                         
@@ -1218,16 +1308,16 @@ while True:
                 elif game_state == "cactus_rare_choices":
                     if selected_choice == "right_choice":
                         selected_choice = "nothing"
-                        current_dialog = cactus_rare_sad
-                        game_state = "dialog"
+                        current_dialogue = cactus_rare_sad
+                        game_state = "dialogue"
                         current_index = 0
-                        dialog_box_visible = True
+                        dialogue_box_visible = True
                     elif selected_choice == "left_choice":
                         selected_choice = "nothing"
-                        current_dialog = cactus_rare_happy
-                        game_state = "dialog"
+                        current_dialogue = cactus_rare_happy
+                        game_state = "dialogue"
                         current_index = 0
-                        dialog_box_visible = True
+                        dialogue_box_visible = True
 
                 elif game_state == "jeep_choices": 
                     if selected_choice == "right_choice":
@@ -1235,38 +1325,38 @@ while True:
                         total_score -= 5
                         check_score()
                         if total_score >= 0:
-                            jeep_back_dialog = ["You lost 5 points for changing your choice!", f"Your score now is {total_score}.", "nothing"] 
-                            game_state = "dialog"
-                            current_dialog = jeep_back_dialog
+                            jeep_back_dialogue = ["You lost 5 points for changing your choice!", f"Your score now is {total_score}.", "nothing"] 
+                            game_state = "dialogue"
+                            current_dialogue = jeep_back_dialogue
                             current_index = 0
-                            dialog_box_visible = True
+                            dialogue_box_visible = True
                     elif selected_choice == "left_choice":
                         selected_choice = "nothing"
-                        current_dialog = jeep_man_talk
-                        game_state = "dialog"
+                        current_dialogue = jeep_man_talk
+                        game_state = "dialogue"
                         current_index = 0
-                        dialog_box_visible = True    
+                        dialogue_box_visible = True    
 #HERE
                 elif game_state == "jeep_bucket_choices":
                     if selected_choice == "left_choice":
                         selected_choice = "nothing"
-                        current_dialog = bucket_given_dialog
+                        current_dialogue = bucket_given_dialogue
                         inventory_items.remove(bucket_icon)
-                        game_state = "dialog"
+                        game_state = "dialogue"
                         current_index = 0
-                        dialog_box_visible = True
+                        dialogue_box_visible = True
                     elif selected_choice == "right_choice":
                         selected_choice = "nothing"
                         total_score -= 5
                         check_score()
                         if total_score >= 0:
-                            current_dialog = bucket_thrown_dialog
+                            current_dialogue = bucket_thrown_dialogue
                             inventory_items.remove(bucket_icon)
-                            game_state = "dialog"
+                            game_state = "dialogue"
                             current_index = 0
-                            dialog_box_visible = True
+                            dialogue_box_visible = True
 
-                elif dialog_box_visible and game_state == "trivia_game_2":
+                elif dialogue_box_visible and game_state == "trivia_game_2":
                     if selected_choice == "left_choice":
                         current_bg = bg_jeep
                         selected_choice = "nothing"
@@ -1275,17 +1365,17 @@ while True:
                         trivia_question_num = 0
                         round_score = 0
                         trivia_question_setup()
-                        game_state = "dialog"
-                        dialog_box_visible = False
+                        game_state = "dialogue"
+                        dialogue_box_visible = False
                     elif selected_choice == "right_choice":
                         selected_choice = "nothing"
                         cactus = cactus_angry
-                        current_dialog = ["You refuse.",
+                        current_dialogue = ["You refuse.",
                                           "Fine! FINE. I won't help you next time!",
                                           "That cactus is weird"]
                         current_index = 0
-                        dialog_box_visible = True
-                        game_state = "dialog"
+                        dialogue_box_visible = True
+                        game_state = "dialogue"
                         man_back = True
                         man_back_timer = pygame.time.get_ticks()
                         bucket_scene_started = False  
@@ -1293,75 +1383,75 @@ while True:
                 elif game_state == "jeep_no_bucket_choices":
                     if selected_choice == "right_choice":
                         selected_choice = "nothing"
-                        current_dialog = stare_man_dialog
-                        game_state = "dialog"
+                        current_dialogue = stare_man_dialogue
+                        game_state = "dialogue"
                         current_index = 0
-                        dialog_box_visible = True
+                        dialogue_box_visible = True
                     elif selected_choice == "left_choice":
                         selected_choice = "nothing"
-                        current_dialog = help_dialog
-                        game_state = "dialog"
+                        current_dialogue = help_dialogue
+                        game_state = "dialogue"
                         current_index = 0
-                        dialog_box_visible = True
+                        dialogue_box_visible = True
                 
                 elif game_state == "pet_choices":
                     if selected_choice == "right_choice":
                         selected_choice = "nothing"
-                        current_dialog = pet_rejected_dialog
-                        game_state = "dialog"
+                        current_dialogue = pet_rejected_dialogue
+                        game_state = "dialogue"
                         current_index = 0
-                        dialog_box_visible = True
+                        dialogue_box_visible = True
                     elif selected_choice == "left_choice":
                         selected_choice = "nothing"
-                        current_dialog = pet_accepted_dialog
-                        game_state = "dialog"
+                        current_dialogue = pet_accepted_dialogue
+                        game_state = "dialogue"
                         current_index = 0
-                        dialog_box_visible = True
+                        dialogue_box_visible = True
 
                 elif game_state == "coin_choices":
                     jeep_man_visible = False
                     if selected_choice == "right_choice":
                         selected_choice = "nothing"
-                        current_dialog = coin_given_dialog
-                        game_state = "dialog"
+                        current_dialogue = coin_given_dialogue
+                        game_state = "dialogue"
                         current_index = 0
-                        dialog_box_visible = True
+                        dialogue_box_visible = True
                     elif selected_choice == "left_choice":
                         selected_choice = "nothing"
-                        current_dialog = thanked_dialog
-                        game_state = "dialog"
+                        current_dialogue = thanked_dialogue
+                        game_state = "dialogue"
                         current_index = 0
-                        dialog_box_visible = True
+                        dialogue_box_visible = True
                     
                 elif game_state == "buy":
                     if selected_choice == "right_choice":
                         selected_choice = "nothing"
-                        current_dialog = only_one
-                        game_state = "dialog"
+                        current_dialogue = only_one
+                        game_state = "dialogue"
                         current_index = 0
-                        dialog_box_visible = True
+                        dialogue_box_visible = True
                     elif selected_choice == "left_choice":
                         selected_choice = "nothing"
-                        current_dialog = both_dialog
-                        game_state = "dialog"
+                        current_dialogue = both_dialogue
+                        game_state = "dialogue"
                         current_index = 0
-                        dialog_box_visible = True
+                        dialogue_box_visible = True
                 
                 elif game_state == "buy_score":
                     if selected_choice == "right_choice":
                         selected_choice = "nothing"
-                        current_dialog = refuse_food
-                        game_state = "dialog"
+                        current_dialogue = refuse_food
+                        game_state = "dialogue"
                         current_index = 0
-                        dialog_box_visible = True
+                        dialogue_box_visible = True
                     elif selected_choice == "left_choice":
                         selected_choice = "nothing"
-                        current_dialog = score_food
-                        game_state = "dialog"
+                        current_dialogue = score_food
+                        game_state = "dialogue"
                         current_index = 0
-                        dialog_box_visible = True
+                        dialogue_box_visible = True
 
-                elif dialog_box_visible and game_state == "cactus_eating_choices":
+                elif dialogue_box_visible and game_state == "cactus_eating_choices":
                     if selected_choice == "left_choice":
                         current_bg = bg_sunset_sitting   
                         selected_choice = "nothing"
@@ -1370,62 +1460,65 @@ while True:
                         trivia_question_num = 0
                         round_score = 0
                         trivia_question_setup()
-                        game_state = "dialog"
-                        dialog_box_visible = False
+                        game_state = "dialogue"
+                        dialogue_box_visible = False
                     elif selected_choice == "right_choice":
                         selected_choice = "nothing"
                         cactus = cactus_angry
-                        current_dialog = ["You throw the cup at it.",
+                        current_dialogue = ["You throw the cup at it.",
                                           "OW! That was really unnecessary! I was going anyway!",
                                           "It vanishes looking deeply offended.",
                                           "Really weird."]
                         current_index = 0
-                        dialog_box_visible = True
-                        game_state = "dialog"
+                        dialogue_box_visible = True
+                        game_state = "dialogue"
                         trivia_3_done = True
                         trivia_3_timer = pygame.time.get_ticks()
                 
             if game_state == "pet_naming":
+                inventory_visible = False
                 if event.key == pygame.K_BACKSPACE:
                     pet_name_input = pet_name_input[:-1]
                 if event.key == pygame.K_RETURN and pet_name_input != "":
+                    endings = False
+                    inventory_visible = True
                     pet_name = pet_name_input
                     pet_name_input = ""
                     pygame.key.stop_text_input()
-                    game_state = "dialog"
-                    dialog_box_visible = True
+                    game_state = "dialogue"
+                    dialogue_box_visible = True
                     naming_active = False
                     pet_name_done[0] = f"Your pet name is {pet_name}"
                     current_index = 0
-                    current_dialog = pet_name_done
+                    current_dialogue = pet_name_done
 
             elif game_state == "evil_cactus_choices":
                     if selected_choice == "right_choice":
                         selected_choice = "nothing"
-                        current_dialog = bad_ending_pet_no
-                        game_state = "dialog"
+                        current_dialogue = bad_ending_pet_no
+                        game_state = "dialogue"
                         current_index = 0
-                        dialog_box_visible = True
+                        dialogue_box_visible = True
                     elif selected_choice == "left_choice":
                         selected_choice = "nothing"
-                        current_dialog = bad_ending_pet_yes
-                        game_state = "dialog"
+                        current_dialogue = bad_ending_pet_yes
+                        game_state = "dialogue"
                         current_index = 0
-                        dialog_box_visible = True
+                        dialogue_box_visible = True
 
             elif game_state == "evil_cactus_choices_no_pet":
                     if selected_choice == "right_choice":
                         selected_choice = "nothing"
-                        current_dialog = bad_ending_no_pet_no
-                        game_state = "dialog"
+                        current_dialogue = bad_ending_no_pet_no
+                        game_state = "dialogue"
                         current_index = 0
-                        dialog_box_visible = True
+                        dialogue_box_visible = True
                     elif selected_choice == "left_choice":
                         selected_choice = "nothing"
-                        current_dialog = bad_ending_no_pet_yes
-                        game_state = "dialog"
+                        current_dialogue = bad_ending_no_pet_yes
+                        game_state = "dialogue"
                         current_index = 0
-                        dialog_box_visible = True
+                        dialogue_box_visible = True
                     
 
             if event.key == pygame.K_RIGHT:
@@ -1474,16 +1567,42 @@ while True:
     start()
     current_time = pygame.time.get_ticks()
 
-    if current_time - dialog_time > 3000 and not intro_started:
-        dialog_box_visible = True
+    if current_time - dialogue_time > 3000 and not intro_started:
+        dialogue_box_visible = True
         intro_started = True
     
 
-    if current_dialog == intro:
+    if current_dialogue == intro:
         if current_index >= 6:
             cactus_visible = True
-        if current_index == len(current_dialog) - 1:
-            intro_done = True
+        if current_index == len(current_dialogue) - 1:
+            current_index = 0
+            game_state = "dialogue"
+            if cactus_intro_done:
+                current_dialogue = cactus_1st_dialogue
+            else:   
+                current_dialogue = cactus_intro
+
+    if current_dialogue == cactus_intro:
+        cactus_intro_done = True
+        dialogue_character = dialogue_cactus
+        if current_index == 1:
+            cactus = cactus_happy
+        if current_index == 2:
+            cactus = cactus_dissappointed
+        if current_index == 3:
+            cactus = cactus_happy
+        if current_index == 4:
+            cactus = cactus_normal
+        if current_index == 11:
+            cactus = cactus_happy
+        if current_index == len(current_dialogue) - 1:
+            cactus = cactus_normal
+            current_index = 0
+            game_state = "dialogue"
+            current_dialogue = cactus_1st_dialogue
+    
+
     if cactus_visible:
         if cactus_width < 300:
             cactus_width += 1
@@ -1491,65 +1610,65 @@ while True:
 
     scaled_cactus = pygame.transform.scale(cactus, (int(cactus_width), int(cactus_height)))
     x = (WIDTH - int(cactus_width)) // 2
-    y = 487 - int(cactus_height) + math.sin(pygame.time.get_ticks() / 500) * 10
+    y = 680 - int(cactus_height) + math.sin(pygame.time.get_ticks() / 500) * 10
     if cactus_visible:
         screen.blit(scaled_cactus, (x, y))
-    if not cactus_1st_dialog_started and intro_done:
-        dialog_box_visible = True
-        cactus_1st_dialog_started = True
-        current_dialog = cactus_1st_dialog
-        dialog_character = dialog_cactus
+    if not cactus_1st_dialogue_started and intro_done:
+        dialogue_box_visible = True
+        cactus_1st_dialogue_started = True
+        current_dialogue = cactus_1st_dialogue
+        dialogue_character = dialogue_cactus
         current_index = 0
 
-    if current_dialog == cactus_1st_dialog:
-        if current_index == len(current_dialog) - 1 and not cactus_questions_started:
-            cactus_1st_dialog_done = True
+    if current_dialogue == cactus_1st_dialogue:
+        if current_index == len(current_dialogue) - 1 and not cactus_questions_started:
+            cactus_1st_dialogue_done = True
             game_state = "choice_cactus_1"
             cactus_questions_started = True
 
 
-    if current_dialog == cactus_sad:
-        if current_index == len(current_dialog) - 1:
+    if current_dialogue == cactus_sad:
+        if current_index == len(current_dialogue) - 1:
             cactus_visible = False
             cactus = cactus_normal
-            dialog_character = dialog_ch
-            if not dialog_box_visible and not bucket_scene_started:
+            dialogue_character = dialogue_ch
+            if not dialogue_box_visible and not bucket_scene_started:
                 bucket_timer = pygame.time.get_ticks()
                 bucket_scene_started = True
             if current_index == 1:
-                dialog_character = dialog_cactus
+                dialogue_character = dialogue_cactus
             if current_index == 2:
-                dialog_character = dialog_ch
+                dialogue_character = dialogue_ch
     
-    if current_dialog == trivia_dialog:
+    if current_dialogue == trivia_dialogue:
         if current_index == 2:
             cactus_visible = False
-            dialog_character = dialog_ch
+            dialogue_character = dialogue_ch
         if trivia_round == 1:
-            if current_index == len(trivia_dialog) - 1 and not dialog_box_visible and not post_trivia_1_done:
+            if current_index == len(trivia_dialogue) - 1 and not dialogue_box_visible and not post_trivia_1_done:
                 post_trivia_1_done = True
                 bucket_timer = pygame.time.get_ticks()
                 bucket_scene_started = True
             #TRIVIA ROUND 2
         elif trivia_round == 2:
-            if current_index == len(trivia_dialog) - 1 and not dialog_box_visible and not man_back:
+            if current_index == len(trivia_dialogue) - 1 and not dialogue_box_visible and not man_back:
                 man_back = True
                 man_back_timer = pygame.time.get_ticks()
                 bucket_scene_started = False
 
         elif trivia_round == 3:
-            if current_index == len(trivia_dialog) - 1 and not dialog_box_visible and not trivia_3_done:
+            if current_index == len(trivia_dialogue) - 1 and not dialogue_box_visible and not trivia_3_done:
                 trivia_3_done = True
                 trivia_3_timer = pygame.time.get_ticks()
 
-    if current_dialog == bucket_dialog:
+    if current_dialogue == bucket_dialogue:
         if current_index == 1:
             current_bg = bg2 
-        if current_index == len(current_dialog) - 1:
+        if current_index == len(current_dialogue) - 1:
             game_state = "bucket_choice"
             bucket_choice_started = True
 
-    if current_dialog == jeep_vs_pond_main:
+    if current_dialogue == jeep_vs_pond_main:
         if current_index == 0 or current_index == 1:
             current_bg = bg2
         elif current_index == 2:
@@ -1559,30 +1678,30 @@ while True:
         elif current_index == 4:
             current_bg = bg2
 
-        if current_index == len(current_dialog) - 1:
+        if current_index == len(current_dialogue) - 1:
             game_state = "jeep_vs_pond_choice"
     
     
-    if current_dialog == pond_dialog:
+    if current_dialogue == pond_dialogue:
         if current_index == 3:
             game_state = "pond_choices"
     
-    if current_dialog == pond_back_dialog:
+    if current_dialogue == pond_back_dialogue:
         if current_index == 2:
             current_bg = bg2
-        if current_index == len(current_dialog) - 1:
+        if current_index == len(current_dialogue) - 1:
             game_state = "jeep_vs_pond_choice"
 
-    if current_dialog == cactus_rare_dialog:
+    if current_dialogue == cactus_rare_dialogue:
         if current_index == 1:
             cactus_visible = True
         if current_index == 2:
-            dialog_character = dialog_cactus
-        if current_index == len(current_dialog) - 1:
+            dialogue_character = dialogue_cactus
+        if current_index == len(current_dialogue) - 1:
             game_state = "cactus_rare_choices"
-            dialog_character = dialog_ch
+            dialogue_character = dialogue_ch
 
-    if current_dialog == cactus_rare_happy:
+    if current_dialogue == cactus_rare_happy:
         cactus_visible = False
         if not cactus_points:
             total_score += 20
@@ -1593,22 +1712,23 @@ while True:
         if current_index == 1:
             current_bg = bg_jeep
         if current_index == 2:
-            dialog_character = dialog_cactus
+            dialogue_character = dialogue_cactus
             cactus_visible = True
         if current_index == 3:
             cactus_visible = True
         if current_index == 5:
             cactus_visible = False
-            dialog_character = dialog_ch
-        if current_index == len(current_dialog) - 1:
-            game_state = "jeep" #EDIT LATER
+            dialogue_character = dialogue_ch
+        if current_index == len(current_dialogue) - 1:
+            current_index = 2
+            current_dialogue = jeep_dialogue
 
-    if current_dialog == cactus_rare_sad:
+    if current_dialogue == cactus_rare_sad:
         cactus = cactus_angry
         if current_index == 0:
-            dialog_character = dialog_cactus
+            dialogue_character = dialogue_cactus
         if current_index == 1:
-            dialog_character = dialog_ch
+            dialogue_character = dialogue_ch
             cactus_visible = False
         if current_index == 3:
             current_bg = bg_walking_1
@@ -1620,60 +1740,60 @@ while True:
             current_bg = bg_collapse
         if current_index == 8:
             current_bg = bg_flying
-        if current_index == len(current_dialog) - 1:
-            if not collapse:
-                collapse = True
+        if current_index == len(current_dialogue) - 1:
             game_state = "game_over"
+            refuse_cactus_visible = True
 
-    if current_dialog == mirage_dialog:
+    if current_dialogue == mirage_dialogue:
         if current_index == 0:
             current_bg = bg_walking_2
         if current_index == 1:
             current_bg = bg_walking_3
         if current_index == 2:
             current_bg = bg_collapse
-        if current_index == len(current_dialog) - 1:
-            if not collapse:
-                collapse = True
-            current_dialog = ["You collapsed in the desert heat... Game Over."]
+        if current_index == len(current_dialogue) - 1:
+            current_dialogue = ["You collapsed in the desert heat.."]
             current_index = 0
             game_state = "game_over"
+            collapsed_sand_visible = True
 
-    if current_dialog == jeep_dialog:
+    if current_dialogue == jeep_dialogue:
         if current_index == 0:
             current_bg = bg_walking_3
         if current_index == 1:
             current_bg = bg_jeep_man_inspecting
-        if current_index == len(current_dialog) - 1:
+        if current_index == 2:
+            current_bg = bg_jeep_man_inspecting
+        if current_index == len(current_dialogue) - 1:
             game_state = "jeep_choices" 
         
-    if current_dialog == jeep_back_dialog:
+    if current_dialogue == jeep_back_dialogue:
         if current_index == 1:
             current_bg = bg2
-        if current_index == len(current_dialog) - 1:
-            current_dialog = jeep_vs_pond_main
+        if current_index == len(current_dialogue) - 1:
+            current_dialogue = jeep_vs_pond_main
             current_index = 1  
-            dialog_box_visible = True
+            dialogue_box_visible = True
 
-    if current_dialog == jeep_man_talk:
+    if current_dialogue == jeep_man_talk:
         if current_index == 1:
             current_bg = bg_jeep
             jeep_man_visible = True
         if current_index == 2:
-            dialog_character = dialog_man
+            dialogue_character = dialogue_man
         if current_index == 5:
-            dialog_character = dialog_ch
-        if current_index == len(current_dialog) - 1:
+            dialogue_character = dialogue_ch
+        if current_index == len(current_dialogue) - 1:
             if bucket_icon in inventory_items:
                 game_state = "jeep_bucket_choices"
             else:
                 game_state = "jeep_no_bucket_choices"
 
-    elif current_dialog == bucket_given_dialog:
-        if current_index == len(current_dialog) - 1 and not trivia_2_started:
+    elif current_dialogue == bucket_given_dialogue:
+        if current_index == len(current_dialogue) - 1 and not trivia_2_started:
             game_state = "trivia_game_2"
             trivia_2_started = True
-            dialog_box_visible = True
+            dialogue_box_visible = True
         if current_index == 0:
             if bucket_icon in inventory_items:
                 inventory_items.remove(bucket_icon)
@@ -1683,43 +1803,45 @@ while True:
         if current_index == 3:
             cactus_visible = True
         if current_index == 4:
-            dialog_character = dialog_cactus
+            dialogue_character = dialogue_cactus
 
-    elif current_dialog == bucket_thrown_dialog:
-        if current_index == len(current_dialog) - 1:
+    elif current_dialogue == bucket_thrown_dialogue:
+        if current_index == len(current_dialogue) - 1:
             game_state = "trivia_game_2"
-            dialog_box_visible = True
+            dialogue_box_visible = True
         if current_index == 0:
             if bucket_icon in inventory_items:
                 inventory_items.remove(bucket_icon)
         if current_index == 1:
             jeep_man = jeep_man_angry
-            dialog_character = dialog_man
+            dialogue_character = dialogue_man
         if current_index == 2:
-            dialog_character = dialog_ch
+            dialogue_character = dialogue_ch
         if current_index == 3:
-            dialog_character = dialog_man
+            dialogue_character = dialogue_man
         if current_index == 4:
-            dialog_character = dialog_ch
+            jeep_man_visible = False
+            dialogue_character = dialogue_ch
         if current_index == 5:
-            dialog_character = dialog_man
+            jeep_man_visible = True
+            dialogue_character = dialogue_man
         if current_index == 6:
-            dialog_character = dialog_ch
+            dialogue_character = dialogue_ch
         if current_index == 7:
-            dialog_character = dialog_man
+            dialogue_character = dialogue_man
             jeep_man = jeep_man_normal
         if current_index == 8:
-            dialog_character = dialog_ch
+            dialogue_character = dialogue_ch
             jeep_man_visible = False
         if current_index == 10:
             cactus_visible = True
         if current_index == 11:
-            dialog_character = dialog_cactus
+            dialogue_character = dialogue_cactus
 
 
         
 
-    elif current_dialog == man_back_dialog:
+    elif current_dialogue == man_back_dialogue:
         if current_index == 0:
             jeep_man = jeep_man_bucket
             jeep_man_visible = True
@@ -1729,15 +1851,15 @@ while True:
         if current_index == 3 and not man_back_bonus:
             man_back_bonus = True
             total_score += 10
-            man_back_dialog[4] = f"Your total score now is {total_score}."
+            man_back_dialogue[4] = f"Your total score now is {total_score}."
             check_score()
         if current_index == 5:
             jeep_man = jeep_man_normal
             jeep_man_visible = True
-            dialog_character = dialog_man
+            dialogue_character = dialogue_man
             current_bg = bg_jeep
         if current_index == 6:
-            dialog_character = dialog_ch
+            dialogue_character = dialogue_ch
             jeep_man_visible = False
             current_bg = bg_in_jeep
         if current_index == 7:
@@ -1745,42 +1867,44 @@ while True:
         if current_index == 11:
             current_bg = bg_village_entrance
         if current_index == 12:
-            dialog_character = dialog_man
-        if current_index == len(current_dialog) - 1:
-            dialog_character = dialog_ch
+            dialogue_character = dialogue_man
+        if current_index == len(current_dialogue) - 1:
+            dialogue_character = dialogue_ch
             jeep_man_visible = False
             game_state = "coin_choices"
-            dialog_box_visible = True
+            dialogue_box_visible = True
             man_back = False
 
-    elif current_dialog == coin_given_dialog:
+    elif current_dialogue == coin_given_dialogue:
         jeep_man_visible = False
         if current_index == 0:
-            dialog_character = dialog_man
+            dialogue_character = dialogue_man
         if current_index == 3:
-            dialog_character = dialog_ch
+            dialogue_character = dialogue_ch
         if current_index == 4:
-            dialog_character = dialog_man
+            dialogue_character = dialogue_man
         if current_index == 5:
-            dialog_character = dialog_ch
+            dialogue_character = dialogue_ch
             if not coin_added:
                 inventory_items.append(coin_icon)
                 coin_added = True
-        if current_index == len(current_dialog) - 1:
-            current_dialog = pet_dialog
+        if current_index == len(current_dialogue) - 1:
+            current_dialogue = pet_dialogue
             current_index = 0
-            dialog_box_visible = True
+            dialogue_box_visible = True
 
-    elif current_dialog == thanked_dialog:
+    elif current_dialogue == thanked_dialogue:
         jeep_man_visible = False
-        if current_index == len(current_dialog) - 1:
-            current_dialog = pet_dialog
+        if current_index == len(current_dialogue) - 1:
+            current_dialogue = pet_dialogue
             current_index = 0
-            dialog_box_visible = True
+            dialogue_box_visible = True
             
 
 
-    elif current_dialog == pet_dialog:
+    elif current_dialogue == pet_dialogue:
+        pet_dialogue[9] = f"You turn around—it’s {the_pet}"
+        pet_dialogue[10] = f"{pet_condition_1}"
         if current_index == 0:
             current_bg = bg2
         if current_index == 2:
@@ -1797,46 +1921,47 @@ while True:
             current_bg = bg2
         if current_index == 9:
             pet_visible = True
-        if current_index == len(current_dialog) - 1:
+        if current_index == len(current_dialogue) - 1:
             game_state = "pet_choices"
-            dialog_box_visible = True
+            dialogue_box_visible = True
 
-    elif current_dialog == ["You refuse.", "Fine! FINE. I won't help you next time!", "That cactus is weird"]:
+    elif current_dialogue == ["You refuse.", "Fine! FINE. I won't help you next time!", "That cactus is weird"]:
         if current_index == 1:
-            dialog_character = dialog_cactus
+            dialogue_character = dialogue_cactus
         if current_index == 2:
-            dialog_character = dialog_ch
+            dialogue_character = dialogue_ch
             cactus_visible = False
-        if current_index == len(current_dialog) - 1:
+        if current_index == len(current_dialogue) - 1:
             cactus = cactus_normal
         
-    elif current_dialog == stare_man_dialog:
+    elif current_dialogue == stare_man_dialogue:
         if current_index == 3:
-            dialog_character = dialog_man
+            dialogue_character = dialogue_man
         if current_index == 4:
-            dialog_character = dialog_ch
+            dialogue_character = dialogue_ch
         if current_index == 5:
-            dialog_character = dialog_man
-        if current_index == len(current_dialog) - 1:
-            current_dialog = man_die
+            dialogue_character = dialogue_man
+        if current_index == len(current_dialogue) - 1:
+            current_dialogue = man_die
             current_index = 0
 
-    elif current_dialog == help_dialog:
+    elif current_dialogue == help_dialogue:
         if current_index == 1:
-            dialog_character = dialog_man
+            dialogue_character = dialogue_man
         if current_index == 2:
-            dialog_character = dialog_ch    
+            dialogue_character = dialogue_ch    
         if current_index == 3:
-            dialog_character = dialog_man
+            dialogue_character = dialogue_man
         if current_index == 4:
-            dialog_character = dialog_ch
+            dialogue_character = dialogue_ch
         if current_index == 5:
-            dialog_character = dialog_man
-        if current_index == len(current_dialog) - 1:
-            current_dialog = man_die
+            dialogue_character = dialogue_man
+        if current_index == len(current_dialogue) - 1:
+            current_dialogue = man_die
             current_index = 0
         
-    elif current_dialog == man_die:
+    elif current_dialogue == man_die:
+        man_die[4] = f"You hear a strange sound in the distance —{strange_sound}, you think."
         if current_index == 0:
             jeep_man_visible = False
             current_bg = bg_jeep_man_inspecting
@@ -1852,43 +1977,45 @@ while True:
             current_bg = bg_stars_blur
         if current_index == 9:
             current_bg = bg_flying
-        if current_index == len(current_dialog) - 1:
+        if current_index == len(current_dialogue) - 1:
             game_state = "game_over"
+            collapse_exhaustion_visible = True
     
-    if current_dialog == pet_rejected_dialog:
+    if current_dialogue == pet_rejected_dialogue:
         if current_index == 2:
             pet_visible = False
         if current_index == 3:
             current_bg = bg_walking_2
-        if current_index == len(current_dialog) - 1:
-            current_dialog = village_walking
+        if current_index == len(current_dialogue) - 1:
+            current_dialogue = village_walking
             current_index = 0
 
-    if current_dialog == pet_accepted_dialog:
-        if current_index == len(current_dialog) - 1 and not naming_active:
+    if current_dialogue == pet_accepted_dialogue:
+        if current_index == len(current_dialogue) - 1 and not naming_active:
             pet_taken = True
             game_state = "pet_naming"
             pygame.key.start_text_input()
             pet_name_input = ""
             naming_active = True
 
-    if current_dialog == pet_name_done:
-        if current_index == len(current_dialog) - 1:
+    if current_dialogue == pet_name_done:
+        pet_name_done[1] = f"{player_pet_status}"
+        if current_index == len(current_dialogue) - 1:
             current_index = 0 
-            current_dialog = village_walking
+            current_dialogue = village_walking
 
-    if current_dialog == village_walking:
+    if current_dialogue == village_walking:
         pet_visible = False
         if current_index == 0:
             current_bg = bg_walking_1
         if current_index == 1:
             current_bg = bg2
-        if current_index == len(current_dialog) - 1:
+        if current_index == len(current_dialogue) - 1:
             current_index = 0
-            dialog_box_visible = True
-            current_dialog = shop_dialog
+            dialogue_box_visible = True
+            current_dialogue = shop_dialogue
 
-    if current_dialog == shop_dialog:
+    if current_dialogue == shop_dialogue:
         if current_index == 0:
             current_bg = bg_walking_3
         if current_index == 1:
@@ -1902,41 +2029,42 @@ while True:
         if current_index == 5:
             current_bg = bg_shop
         if current_index == 6:
-            dialog_character = dialog_woman
-        if current_index == len(current_dialog) - 1:
+            dialogue_character = dialogue_woman
+        if current_index == len(current_dialogue) - 1:
             current_bg = bg_shop
             current_index = 0
-            dialog_box_visible = True
+            dialogue_box_visible = True
             if coin_icon in inventory_items:
                 game_state = "buy"
             else:
-                current_dialog = no_coin_dialog
+                current_dialogue = no_coin_dialogue
 
-    if current_dialog == no_coin_dialog:
+    if current_dialogue == no_coin_dialogue:
         current_bg = bg_shop
         if  current_index == 0:
-            dialog_character = dialog_ch
+            dialogue_character = dialogue_ch
         if current_index == 2:
-            dialog_character = dialog_woman
-        if current_index == len(current_dialog) - 1:
-            dialog_character = dialog_ch
+            dialogue_character = dialogue_woman
+        if current_index == len(current_dialogue) - 1:
+            dialogue_character = dialogue_ch
             current_index = 0
-            dialog_box_visible = True
+            dialogue_box_visible = True
             if total_score > 20:
                 game_state = "buy_score"
             else:
-                current_dialog = no_money_shop
+                current_dialogue = no_money_shop
 
-    if current_dialog == no_money_shop:
+    if current_dialogue == no_money_shop:
+        no_money_shop[4] = f"She hands you {the_food} and {the_drink}"
         current_bg = bg_shop
         if current_index == 0:
-            dialog_character = dialog_woman
+            dialogue_character = dialogue_woman
         if current_index == 1:
-            dialog_character = dialog_ch
+            dialogue_character = dialogue_ch
         if current_index == 3:
-            dialog_character = dialog_woman
+            dialogue_character = dialogue_woman
         if current_index == 4:
-            dialog_character = dialog_ch
+            dialogue_character = dialogue_ch
             if not food_added:
                 inventory_items.append(the_food_img)
                 food_added = True
@@ -1944,28 +2072,29 @@ while True:
                 inventory_items.append(the_drink_img)
                 drink_added = True
         if current_index == 5:
-            dialog_character = dialog_woman
+            dialogue_character = dialogue_woman
         if current_index == 6:
-            dialog_character = dialog_ch
+            dialogue_character = dialogue_ch
         if current_index == 7:
-            dialog_character = dialog_woman
+            dialogue_character = dialogue_woman
         if current_index == 8:
-            dialog_character = dialog_ch
-        if current_index == len(current_dialog) - 1:
-            dialog_character = dialog_ch
+            dialogue_character = dialogue_ch
+        if current_index == len(current_dialogue) - 1:
+            dialogue_character = dialogue_ch
             current_index = 0
-            dialog_box_visible = True
-            current_dialog = eating_dialog
+            dialogue_box_visible = True
+            current_dialogue = eating_dialogue
 
 
-    if current_dialog == score_food:
+    if current_dialogue == score_food:
+        score_food[2] = f"She hands you {the_food} and {the_drink}"
         current_bg = bg_shop
         if current_index == 0:
-            dialog_character = dialog_ch
+            dialogue_character = dialogue_ch
         if current_index == 1:
-            dialog_character = dialog_woman
+            dialogue_character = dialogue_woman
         if current_index == 2:
-            dialog_character = dialog_ch
+            dialogue_character = dialogue_ch
             if not food_added:
                 inventory_items.append(the_food_img)
                 food_added = True
@@ -1976,20 +2105,22 @@ while True:
             total_score -= 20
             score_food[3] = f"Your total score is now {total_score}"
             score_minus_twenty = True 
-        if current_index == len(current_dialog) - 1:
-            dialog_character = dialog_ch
+        if current_index == len(current_dialogue) - 1:
+            dialogue_character = dialogue_ch
             current_index = 0
-            dialog_box_visible = True
-            current_dialog = eating_dialog
+            dialogue_box_visible = True
+            current_dialogue = eating_dialogue
 
-    if current_dialog == only_one:
+    if current_dialogue == only_one:
+        only_one[2] = f"She hands you {the_drink} and gives you some change."
+        only_one[3] = f"You use the change to buy yourself something to eat, she hands you {the_food}"
         if coin_icon in inventory_items:
             inventory_items.remove(coin_icon)
         current_bg = bg_shop
         if current_index == 1:
-            dialog_character = dialog_woman
+            dialogue_character = dialogue_woman
         if current_index == 2:
-            dialog_character = dialog_ch
+            dialogue_character = dialogue_ch
             if not drink_added:
                 inventory_items.append(the_drink_img)
                 drink_added = True
@@ -1997,18 +2128,19 @@ while True:
             if not food_added:
                 inventory_items.append(the_food_img)
                 food_added = True
-        if current_index == len(current_dialog) - 1:
-            dialog_character = dialog_ch
+        if current_index == len(current_dialogue) - 1:
+            dialogue_character = dialogue_ch
             current_index = 0
-            dialog_box_visible = True
-            current_dialog = eating_dialog
+            dialogue_box_visible = True
+            current_dialogue = eating_dialogue
 
-    if current_dialog == both_dialog:
+    if current_dialogue == both_dialogue:
+        both_dialogue[1] = f"The woman surprisingly hands you {the_food} and {the_drink}"
         if coin_icon in inventory_items:
             inventory_items.remove(coin_icon)
         current_bg = bg_shop
         if current_index == 0:
-            dialog_character = dialog_ch
+            dialogue_character = dialogue_ch
         if current_index == 1:
             if not food_added:
                 inventory_items.append(the_food_img)
@@ -2017,21 +2149,21 @@ while True:
                 inventory_items.append(the_drink_img)
                 drink_added = True
         if current_index == 2:
-            dialog_character = dialog_woman
+            dialogue_character = dialogue_woman
         if current_index == 3:
-            dialog_character = dialog_ch 
-        if current_index == len(current_dialog) - 1:
-            dialog_character = dialog_ch
+            dialogue_character = dialogue_ch 
+        if current_index == len(current_dialogue) - 1:
+            dialogue_character = dialogue_ch
             current_index = 0
-            dialog_box_visible = True
-            current_dialog = eating_dialog
+            dialogue_box_visible = True
+            current_dialogue = eating_dialogue
 
-    if current_dialog == refuse_food:
+    if current_dialogue == refuse_food:
         if current_index == 0:
-            dialog_character = dialog_woman
+            dialogue_character = dialogue_woman
             current_bg = bg_shop
         if current_index == 1:
-            dialog_character = dialog_ch
+            dialogue_character = dialogue_ch
             current_bg = bg2
         if current_index == 2:
             current_bg = bg_walking_1
@@ -2039,82 +2171,82 @@ while True:
             current_bg = bg_collapse
         if current_index == 4:
             current_bg = bg_flying
-        if current_index == len(current_dialog) - 1:
-            if not collapse:
-                collapse = True
+        if current_index == len(current_dialogue) - 1:
             current_index = 0
             game_state = "game_over"
+            refuse_woman_visible = True
 
-    if current_dialog == eating_dialog:
+    if current_dialogue == eating_dialogue:
         if current_index == 0:
             current_bg = bg_sunset
         if current_index == 1:
             current_bg = bg_sunset_sitting
-        if current_index == len(current_dialog) - 1:
+        if current_index == len(current_dialogue) - 1:
             inventory_items.remove(the_food_img)
             inventory_items.remove(the_drink_img)
             current_index = 0
-            dialog_box_visible = True
+            dialogue_box_visible = True
             if pet_taken:
-               current_dialog = eating_pet_dialog
+               current_dialogue = eating_pet_dialogue
             else:
-                current_dialog = cactus_eating_dialog
+                current_dialogue = cactus_eating_dialogue
 
-    if current_dialog == eating_pet_dialog:
+    if current_dialogue == eating_pet_dialogue:
+        eating_pet_dialogue[1] = f"You look at it, {pet_condition_2}"
         if current_index == 1:
             pet_visible = True
         if current_index == 3:
             pet_visible = False
         if current_index == 5:
-            eating_pet_dialog[5] = f"{pet_name} is sleeping on your lap.."
-        if current_index == len(current_dialog) - 1:
+            eating_pet_dialogue[5] = f"{pet_name} is sleeping on your lap.."
+        if current_index == len(current_dialogue) - 1:
             current_index = 0
-            dialog_box_visible = True
-            current_dialog = cactus_eating_dialog
+            dialogue_box_visible = True
+            current_dialogue = cactus_eating_dialogue
 
-    if current_dialog == cactus_eating_dialog:
+    if current_dialogue == cactus_eating_dialogue:
         if current_index == 0:
             cactus_visible = True
-            dialog_character = dialog_cactus
+            dialogue_character = dialogue_cactus
         if current_index == 1:
-            dialog_character = dialog_ch
+            dialogue_character = dialogue_ch
         if current_index == 2:
-            dialog_character = dialog_cactus
-        if current_index == len(current_dialog) - 1 and not trivia_3_started:
-            dialog_character = dialog_ch
+            dialogue_character = dialogue_cactus
+        if current_index == len(current_dialogue) - 1 and not trivia_3_started:
+            dialogue_character = dialogue_ch
             game_state = "cactus_eating_choices"
             trivia_3_started = True
-            dialog_box_visible = True
+            dialogue_box_visible = True
 
-    if current_dialog == ["You throw the cup at it.", "OW! That was really unnecessary! I was going anyway!", "It vanishes looking deeply offended.", "Really weird."]:
+    if current_dialogue == ["You throw the cup at it.", "OW! That was really unnecessary! I was going anyway!", "It vanishes looking deeply offended.", "Really weird."]:
         if current_index == 0:
-            dialog_character = dialog_ch
+            dialogue_character = dialogue_ch
         if current_index == 1:
-            dialog_character = dialog_cactus
+            dialogue_character = dialogue_cactus
         if current_index == 2:
-            dialog_character = dialog_ch
+            dialogue_character = dialogue_ch
             cactus_visible = False
-        if current_index == len(current_dialog) - 1:
+        if current_index == len(current_dialogue) - 1:
             cactus = cactus_normal
             cactus_visible = False
             current_index = 0
-            dialog_box_visible = True
+            dialogue_box_visible = True
             if total_score >= 75: #ENDING
-                current_dialog = best_ending
+                current_dialogue = best_ending
             elif 75 > total_score >= 35:
-                current_dialog = mid_ending 
+                current_dialogue = mid_ending 
             elif 35 > total_score:
-                current_dialog = bad_ending
+                current_dialogue = bad_ending
 
-    if current_dialog == "weird":
+    if current_dialogue == "weird":
         if total_score >= 75: #ENDING
-                current_dialog = best_ending
+                current_dialogue = best_ending
         elif 75 > total_score >= 35:
-                current_dialog = mid_ending 
+                current_dialogue = mid_ending 
         elif 35 > total_score:
-                current_dialog = bad_ending
+                current_dialogue = bad_ending
 
-    if current_dialog == best_ending:
+    if current_dialogue == best_ending:
         if current_index == 0:
             current_bg = bg_sunset
         if current_index == 1:
@@ -2126,266 +2258,239 @@ while True:
         if current_index == 5:
             bro_visible = True
         if current_index == 6:
-            dialog_character = dialog_bro
+            dialogue_character = dialogue_bro
         if current_index == 7:
-            dialog_character = dialog_ch
+            dialogue_character = dialogue_ch
         if current_index == 8:
-            dialog_character = dialog_bro
+            dialogue_character = dialogue_bro
         if current_index == 9:
-            dialog_character = dialog_ch
+            dialogue_character = dialogue_ch
         if current_index == 11:
             bro = bro_concerned
-            dialog_character = dialog_bro
+            dialogue_character = dialogue_bro
         if current_index == 12:
             bro = bro_sad
-            dialog_character = dialog_ch
+            dialogue_character = dialogue_ch
         if current_index == 13:
-            dialog_character = dialog_bro
+            dialogue_character = dialogue_bro
         if current_index == 14:
-            dialog_character = dialog_ch
+            dialogue_character = dialogue_ch
         if current_index == 15:
-            dialog_character = dialog_bro
+            dialogue_character = dialogue_bro
         if current_index == 16:
             bro = bro_concerned
-        if current_index == 17:
-            dialog_character = dialog_ch
-        if current_index == 20:
-            dialog_character = dialog_bro
+        if current_index == 18:
+            dialogue_character = dialogue_ch
         if current_index == 21:
-            dialog_character = dialog_ch
+            dialogue_character = dialogue_bro
         if current_index == 22:
+            dialogue_character = dialogue_ch
+        if current_index == 23:
             bro = bro_normal
-            dialog_character = dialog_bro
-        if current_index == 24:
-            dialog_character = dialog_ch
-        if current_index == len(current_dialog) - 1:
+            dialogue_character = dialogue_bro
+        if current_index == 25:
+            dialogue_character = dialogue_ch
+        if current_index == len(current_dialogue) - 1:
             current_index = 0
-            dialog_box_visible = True
+            dialogue_box_visible = True
             if pet_taken:
-                current_dialog = best_ending_pet
+                current_dialogue = best_ending_pet
             else:
-                current_dialog = best_ending_no_pet
+                current_dialogue = best_ending_no_pet
 
-    if current_dialog == best_ending_pet:
+    if current_dialogue == best_ending_pet:
+        best_ending_pet[1] = f"{pet_condition_3}."
         if current_index == 0:
             pet_visible = True
             bro_visible = False
             best_ending_pet[0] = f"You glance down at your side, you see {pet_name}"
         if current_index == 3:
-            current_bg = bg_jeep
+            pet_visible = False
+            current_bg = bg_in_jeep
         if current_index == 5:
             current_bg = bg_flying
-        if current_index == len(current_dialog) - 1:
-            current_index = 0
-            dialog_box_visible = True
+        if current_index == len(current_dialogue) - 1:
             game_state = "game_over"
+            best_pet_visible = True
 
-    if current_dialog == best_ending_no_pet:
+    if current_dialogue == best_ending_no_pet:
         if current_index == 0:
-            current_bg = bg_jeep
+            current_bg = bg_in_jeep
         if current_index == 2:
             current_bg = bg_flying
-        if current_index == len(current_dialog) - 1:
-            current_index = 0
-            dialog_box_visible = True
+        if current_index == len(current_dialogue) - 1:
             game_state = "game_over"
+            best_visible = True
 
-    if current_dialog == mid_ending:
+    if current_dialogue == mid_ending:
         if current_index == 0:
             current_bg = bg_sunset
         if current_index == 2:
             jeep_man_visible = True
             jeep_man = jeep_man_normal
-            dialog_character = dialog_man
+            dialogue_character = dialogue_man
         if current_index == 6:
-            dialog_character = dialog_ch
-        if current_index == len(current_dialog) - 1:
+            dialogue_character = dialogue_ch
+        if current_index == len(current_dialogue) - 1:
             current_index = 0
-            dialog_box_visible = True
-            current_dialog = transition
+            dialogue_box_visible = True
+            current_dialogue = transition
         
-    if current_dialog == transition:
+    if current_dialogue == transition:
         jeep_man_visible = False
         current_bg = bg_flying
-        if current_index == len(current_dialog) - 1:
+        if current_index == len(current_dialogue) - 1:
             current_index = 0
-            dialog_box_visible = True
+            dialogue_box_visible = True
             if pet_taken:
-                current_dialog = mid_ending_pet
+                current_dialogue = mid_ending_pet
             else:
-                current_dialog = mid_ending_no_pet
+                current_dialogue = mid_ending_no_pet
 
-    if current_dialog == mid_ending_pet:
+    if current_dialogue == mid_ending_pet:
+        mid_ending_pet[1] = f"{pet_condition_3}."
         current_bg = bg_mid_pet
         mid_ending_pet[0] = f"You and {pet_name} now work in the cozy little shop."
-        if current_index == len(current_dialog) - 1:
+        if current_index == len(current_dialogue) - 1:
             game_state = "game_over"
+            mid_pet_visible = True
 
-    if current_dialog == mid_ending_no_pet:
+    if current_dialogue == mid_ending_no_pet:
         current_bg = bg_mid_no_pet
-        if current_index == len(current_dialog) - 1:
+        if current_index == len(current_dialogue) - 1:
             game_state = "game_over"
+            mid_visible = True
 
-    if current_dialog == bad_ending:
+    if current_dialogue == bad_ending:
         if current_index == 1:
             current_bg = bg_sunset
         if current_index == 3:
-            dialog_character = dialog_cactus
+            dialogue_character = dialogue_cactus
         if current_index == 4:
-            dialog_character = dialog_ch
+            dialogue_character = dialogue_ch
             cactus_visible = True
         if current_index == 9:
-            dialog_character = dialog_cactus
+            dialogue_character = dialogue_cactus
             cactus = cactus_angry
         if current_index == 10:
-            dialog_character = dialog_ch
-        if current_index == len(current_dialog) - 1:
+            dialogue_character = dialogue_ch
+        if current_index == len(current_dialogue) - 1:
             current_index = 0
-            dialog_box_visible = True
+            dialogue_box_visible = True
             if pet_taken:
-                current_dialog = bad_ending_pet
+                current_dialogue = bad_ending_pet
             else:
-                current_dialog = bad_ending_no_pet
+                current_dialogue = bad_ending_no_pet
         
-    if current_dialog == bad_ending_pet:
+    if current_dialogue == bad_ending_pet:
         bad_ending_pet[2] = f"But you do have {pet_name}! Cute little thing!"
         bad_ending_pet[11] = f"—I get to keep {pet_name}."
         if current_index == 0:
             cactus = cactus_normal
-            dialog_character = dialog_cactus
+            dialogue_character = dialogue_cactus
         if current_index == 1:
             cactus = cactus_shocked
         if current_index == 2:
             cactus = cactus_normal
         if current_index == 3:
-            dialog_character = dialog_ch
+            dialogue_character = dialogue_ch
         if current_index == 6:
-            dialog_character = dialog_cactus
+            dialogue_character = dialogue_cactus
         if current_index == 11:
             cactus = cactus_evil
-        if current_index == len(current_dialog) - 1:
+        if current_index == len(current_dialogue) - 1:
             game_state = "evil_cactus_choices"
             cactus = cactus_normal
     
-    if current_dialog == bad_ending_pet_no:
+    if current_dialogue == bad_ending_pet_no:
         bad_ending_pet_no[4] = f"Alone. No {pet_name} in sight."
         if current_index == 0:
             cactus = cactus_evil
-            dialog_character = dialog_cactus
+            dialogue_character = dialogue_cactus
         if current_index == 1:
             cactus_visible = False
             current_bg = bg_white
-            dialog_character = dialog_ch
+            dialogue_character = dialogue_ch
         if current_index == 3:
             current_bg = bg_bad_ending
-        if current_index == 5:
-            current_bg = bg_week
+            bad_ending_pet_no[4] = f"Alone. No {pet_name} in sight."
         if current_index == 6:
             current_bg = bg_bad_ending
-        if current_index == len(current_dialog) - 1:
+        if current_index == len(current_dialogue) - 1:
             game_state = "game_over"
+            bad_pet_visible = True
 
-    if current_dialog == bad_ending_pet_yes:
-        bad_ending_pet_no[4] = f"Alone. No {pet_name} in sight."
+    if current_dialogue == bad_ending_pet_yes:
+        bad_ending_pet_yes[4] = f"Alone. No {pet_name} in sight."
         if current_index == 0:
             cactus = cactus_evil
-            dialog_character = dialog_cactus
+            dialogue_character = dialogue_cactus
         if current_index == 1:
             cactus_visible = False
             current_bg = bg_white
-            dialog_character = dialog_ch
+            dialogue_character = dialogue_ch
         if current_index == 3:
             current_bg = bg_bad_ending
-        if current_index == 5:
-            current_bg = bg_week
         if current_index == 6:
             current_bg = bg_bad_ending
-        if current_index == len(current_dialog) - 1:
+        if current_index == len(current_dialogue) - 1:
             game_state = "game_over"
+            bad_pet_visible = True
             
-    if current_dialog == bad_ending_no_pet:
+    if current_dialogue == bad_ending_no_pet:
         bad_ending_no_pet[12] = f"{total_score} points, right?"
         if current_index == 0:
             cactus = cactus_normal
-            dialog_character = dialog_cactus
+            dialogue_character = dialogue_cactus
         if current_index == 1:
             cactus = cactus_dissappointed
-            dialog_character = dialog_ch
+            dialogue_character = dialogue_ch
         if current_index == 2:
-            dialog_character = dialog_cactus
+            dialogue_character = dialogue_cactus
         if current_index == 3:
-            dialog_character = dialog_ch
+            dialogue_character = dialogue_ch
         if current_index == 6:
-            dialog_character = dialog_cactus
+            dialogue_character = dialogue_cactus
         if current_index == 11:
             cactus = cactus_evil
-        if current_index == len(current_dialog) - 1:
+        if current_index == len(current_dialogue) - 1:
             game_state = "evil_cactus_choices_no_pet"
             cactus = cactus_normal
+            bad_visible = True
         
-    if current_dialog == bad_ending_pet_no:
+    if current_dialogue == bad_ending_pet_no:
+        bad_ending_pet_no[4] = f"Alone. No {pet_name} in sight."
         if current_index == 0:
             cactus = cactus_evil
-            dialog_character = dialog_cactus
+            dialogue_character = dialogue_cactus
         if current_index == 1:
             cactus_visible = False
             current_bg = bg_white
-            dialog_character = dialog_ch
+            dialogue_character = dialogue_ch
         if current_index == 3:
             current_bg = bg_bad_ending
-        if current_index == 6:
-            current_bg = bg_week
         if current_index == 7:
             current_bg = bg_bad_ending
-        if current_index == len(current_dialog) - 1:
+        if current_index == len(current_dialogue) - 1:
             game_state = "game_over"
+            bad_pet_visible = True
 
-    if current_dialog == bad_ending_pet_yes:
+    if current_dialogue == bad_ending_pet_yes:
         if current_index == 0:
             cactus = cactus_evil
-            dialog_character = dialog_cactus
+            dialogue_character = dialogue_cactus
         if current_index == 1:
             cactus_visible = False
             current_bg = bg_white
-            dialog_character = dialog_ch
+            dialogue_character = dialogue_ch
         if current_index == 3:
             current_bg = bg_bad_ending
-        if current_index == 6:
-            current_bg = bg_week
         if current_index == 7:
             current_bg = bg_bad_ending
-        if current_index == len(current_dialog) - 1:
+        if current_index == len(current_dialogue) - 1:
             game_state = "game_over"
-    
-
-        
-
-    #B
-            
-        
-        
-
-
-
-
-        
-         
-        
-        
-           
-    #ENDINGS
-    if collapse and "Collapsed on the hot sand" not in endings:
-        endings.append("Collapsed on the hot sand")
-    if points_poor and "Points Poor" not in endings:
-        endings.append("Points Poor")   
-        
-        
-
-
-
-        
-
-            
+            bad_pet_visible = True
+                   
     if current_bg == bg2:
         if not bucket_taken:
             screen.blit(bucket_img, (510,352))
@@ -2393,24 +2498,24 @@ while True:
 
     
 
-    if bucket_scene_started and not dialog_box_visible:
+    if bucket_scene_started and not dialogue_box_visible:
         if current_time - bucket_timer > 2000 and not bucket_choice_started:
-            current_dialog = bucket_dialog
+            current_dialogue = bucket_dialogue
             current_index = 0
-            dialog_box_visible = True
+            dialogue_box_visible = True
 
-    if man_back and not dialog_box_visible:
+    if man_back and not dialogue_box_visible:
         if current_time - man_back_timer > 2000:
-            man_back_dialog[4] = f"Your total score now is {total_score} points!"  
-            current_dialog = man_back_dialog
+            man_back_dialogue[4] = f"Your total score now is {total_score} points!"  
+            current_dialogue = man_back_dialogue
             current_index = 0
-            dialog_box_visible = True
+            dialogue_box_visible = True
 
-    if trivia_3_done and not dialog_box_visible: 
+    if trivia_3_done and not dialogue_box_visible: 
         if current_time - trivia_3_timer > 2000:
-            current_dialog = "weird"
+            current_dialogue = "weird"
             current_index = 0
-            dialog_box_visible = True
+            dialogue_box_visible = True
 
     if the_pet == "a cat":
         the_pet_img = pet_cat
@@ -2429,9 +2534,9 @@ while True:
 
     if the_food == "camel meat and bread":
         the_food_img = c_m_b_icon
-    elif the_food == "sheep meat and bread":
+    elif the_food == "lamb and bread":
         the_food_img = s_m_b_icon
-    elif the_food == "plane bread, you are hungry you can't complain":
+    elif the_food == "plain bread, you are hungry you can't complain":
         the_food_img = bread_icon
     elif the_food == "fruit salad":
         the_food_img = fruit_salad_icon
@@ -2441,8 +2546,10 @@ while True:
         the_food_img = salad_icon
     elif the_food == "chicken and bread":
         the_food_img = chicken_and_bread_icon
-    elif the_food == "a strange sandwich, it smells like goat cheese, lets hope it tastes good.":
+    elif the_food == "a strange sandwich, it smells like goat cheese, let's hope it tastes good.":
         the_food_img = sandwich_icon
+    elif the_food == "goat cheese":
+        the_food_img = goat_cheese_icon
 
     if the_drink == "warm water":
         the_drink_img = warm_water_icon
@@ -2471,12 +2578,12 @@ while True:
         screen.blit(the_pet_img, (480, 280))  
 
     
-    if game_state == "dialog":
-        dialog_check()
+    if game_state == "dialogue":
+        dialogue_check()
     elif game_state == "choice_cactus_1":
         cactus_questions("That was weird", "That was soooo much fun!") 
     elif game_state == "game_over":
-        dialog_check() 
+        dialogue_check() 
 
     elif game_state == "bucket_choice":
         choices("Take the bucket", "Leave the bucket")
@@ -2536,20 +2643,44 @@ while True:
         if current_time - result_timer > 1000:
             cactus = cactus_normal
             showing_trivia_result = False
-            game_state = "dialog"
-            dialog_box_visible = True
-            trivia_dialog = [score_line, cactus_last_line, narrator_last_line]
-            current_dialog = trivia_dialog
+            game_state = "dialogue"
+            dialogue_box_visible = True
+            trivia_dialogue = [score_line, cactus_last_line, narrator_last_line]
+            current_dialogue = trivia_dialogue
             current_index = 0
             round_score = 0
 
     if inventory_visible:
         draw_inventory()    
 
-    draw_message(f"Score: {total_score}", 20, 20)
-            
     
 
+    draw_message(f"Score: {total_score}", 20, 630)
 
+    if endings and not naming_active:
+            screen.blit(endings_screen, (0,0))
+    #ENDINGS
+    if points_poor_visible and endings:
+        screen.blit(points_poor_text, (0, 0))
+    if refuse_cactus_visible and endings:
+        screen.blit(refuse_cactus, (0, 0))
+    if collapsed_sand_visible and endings:
+        screen.blit(collapsed_sand, (0, 0))
+    if collapse_exhaustion_visible and endings:
+        screen.blit(collapse_exhaustion, (0, 0))
+    if refuse_woman_visible and endings:
+        screen.blit(refuse_woman, (0, 0))
+    if best_pet_visible and endings: 
+        screen.blit(best_pet, (0, 0))
+    if best_visible and endings:
+        screen.blit(best, (0, 0))
+    if mid_pet_visible and endings:
+        screen.blit(mid_pet, (0, 0))
+    if mid_visible and endings:
+        screen.blit(mid, (0, 0))
+    if bad_pet_visible and endings:
+        screen.blit(bad_pet, (0, 0))
+    if bad_visible and endings:
+        screen.blit(bad, (0, 0))
 
     pygame.display.update()
