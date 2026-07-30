@@ -22,9 +22,7 @@ jobs:
           pip install pygame pyinstaller
 
       - name: Show files
-        run: |
-          dir
-          dir /s
+        run: Get-ChildItem -Recurse
 
       - name: Build game
         run: pyinstaller cactus.spec
