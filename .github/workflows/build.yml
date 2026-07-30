@@ -21,6 +21,11 @@ jobs:
           python -m pip install --upgrade pip
           pip install pygame pyinstaller
 
+      - name: Show files
+        run: |
+          dir
+          dir /s
+
       - name: Build game
         run: pyinstaller cactus.spec
 
